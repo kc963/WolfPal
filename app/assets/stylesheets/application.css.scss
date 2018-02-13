@@ -9,3 +9,9 @@
 .alert-notice {
   @extend .alert-info;
 }
+
+#leftFrame{
+  width: 75%;
+  overflow: auto;
+  float: left
+}

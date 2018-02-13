@@ -4,10 +4,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :sem, :year])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name, :sem, :year])
     # For Devise 4 and Rails 5 employ:
     # devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
     # devise_parameter_sanitizer.permit(:account_update, keys: [:name])
   end
+
 end

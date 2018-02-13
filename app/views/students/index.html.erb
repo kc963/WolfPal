@@ -7,6 +7,26 @@
           <%= link_to 'Register', new_student_registration_path, class: 'btn btn-primary btn-lg' %>
         </p>
       </div>
+    </div>
+<% end %>
+
+<% content_for :left_content do %>
+    <div class="jumbotron">
+      <% if student_signed_in? %>
+          <%= render 'layouts/chatlio' %>
+          <%= yield :js %>
+          <h2>List of courses and relevant filters</h2>
+      <% else %>
+
+      <% end %>
+    </div>
+<% end %>
+
+
+<% content_for :right_content do %>
+    <div class="jumbotron">
+      <div class="container">
+        List of selected course goes this side.
       </div>
     </div>
 <% end %>
