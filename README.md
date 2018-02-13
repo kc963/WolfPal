@@ -13,6 +13,8 @@ Topic: WolfPal: Your Planning Assistant
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
+Trying to check account
+
 Things you may want to cover:
 
 * Ruby version
