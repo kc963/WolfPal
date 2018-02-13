@@ -1,3 +1,8 @@
+# IMPORTANT
+
+To run the program, the .env file must be completed in order to run the slackbot.
+The file requires clientId and clientSecret to be filled. These two things can be found when the application is created on slack.
+
 # Reference
 This repo extended "Botkit Starter Kit for Slack Bots"
 (https://github.com/chatbot-tutorials/slack-starter-chatbot)

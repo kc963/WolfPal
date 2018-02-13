@@ -8,92 +8,103 @@ In these examples, Botkit is configured to listen for certain phrases, and then
 respond immediately with a single line response.
 
 */
+const fs = require('fs');
 
 module.exports = function(controller) {
 
-
-    controller.hears(['^hello$'], 'direct_message,direct_mention', function(bot, message) {
-        bot.reply(message, "Hi there, you're on workspace: " + message.team)
-    });
-
-
-    controller.on('direct_message,direct_mention', function(bot, message) {
-        if (matchKeywords(message.text) )
-            bot.reply(message, "sentence contains graduation and subject");
-        else
-            bot.reply(message, "I don't understand");
-    });
-
-
-    controller.hears(['^say (.*)','^say'], 'direct_message,direct_mention', function(bot, message) {
-        if (message.match[1]) {
-            bot.reply(message, "ok, " + message.match[1]);//match[1] is (.*), match[0] is whole sentence
-        } else {
-            bot.reply(message, 'I will repeat whatever you say.')
-        }
-    });
-
-
-    controller.hears(['color'], 'direct_message,direct_mention', function(bot, message) {
-
-        bot.startConversation(message, function(err, convo) {
-            convo.say('This is an example of using convo.ask with a single callback.');
-
-            convo.ask('What is your favorite color?', function(response, convo) {
-
-                convo.say('Cool, I like ' + response.text + ' too!');
+  function course_selection_help(convo){
+    convo.ask("What is your area of interest?", function(response, convo){
+      convo.say("Gotcha! Let me look for it.");
+      convo.next();
+      var res = response.text.toLowerCase();
+      res = res.split(" ").join("_");
+      var found_anything = false;
+      var counter = 0;
+      var dir = __dirname + "/data_files/";
+      fs.readdirSync(dir).forEach(file => {
+          console.log(file + " , " + res);
+            if(file.search(res) >= 0 || res.search(file.substring(0, file.indexOf('.'))) >= 0){
+              found_anything = true;
+              var data = JSON.parse(fs.readFileSync(dir+file, 'utf-8'));
+              console.log(data.courses);
+              var courses = data.courses;
+              courses.forEach(course => {
+                convo.say(++counter + ". " + course.toString());
                 convo.next();
-
-            });
-        });
-
-    });
-
-
-    controller.hears(['suggestion'], 'direct_message,direct_mention', function(bot, message) {
-        bot.startConversation(message, function(err, convo) {
-            convo.say('This is an example of using convo.ask with a single callback.');
-
-            convo.ask('need suggestions?', function(response, convo) {
-                var user = response.text.toLowerCase().search("yes");
-                if (user >= 0) {
-                    convo.ask('area of interest?', function (response, convo) {
-                        user = response.text.toLowerCase().search("software engineering");
-                        if (user >= 0){
-                            convo.say("you said " + response.text);
-                        }
-                        else{
-                            convo.say("Ok, you said " + response.text );
-                        }
-                        convo.next();
-                    });
-                }
-                convo.next();
-            });
-        });
-    });//end of suggestion
-};
-
-var list = ['graduation', 'subject'];
-
-var matchKeywords =  function(message){
-    var strings = message.toLowerCase().split(" ");
-    var containAll = true;
-
-    for (var l = 0; l < list.length; l++){
-        if (!containAll)
-            return false;
-
-        var containThis = false;
-        for (var s = 0; s < strings.length; s++){
-            if (list[l]===strings[s]){
-                containThis = true;
-                break;
+              });
             }
-        }
+      });
+      counter = 0;
+      if(!found_anything){
+        convo.say("Uh oh! I don't know anything about this topic right now. Don't you worry, I'll update my database soon!");
+      }else{
+        convo.say("These are the courses that I could find related your area of interest.");
+        convo.next();
+        convo.say("Phewww! Had to dig deep to find the info. I hope it solved your purpose.");
+      }
+      convo.next();
+    });
+  }
 
-        if(!containThis)
-            return false;
+    function ask_for_course_suggestion(convo){
+      convo.ask("Need some course suggestions?", function(response, convo){
+        convo.next();
+        console.log(response.text);
+        var agree = ['yes','please','i do', 'sure', 'why not'];
+        var question = false;
+        response = response.text.toLowerCase();
+        agree.forEach(entry => {
+          if(response.search(entry) >= 0){
+            question = true;
+          }
+        });
+        if(question){
+          course_selection_help(convo);
+        }else{
+          convo.say("Cool!");
+        }
+      });
     }
-    return true;
-}
+
+    var greetings = ['hello', 'Hello', 'Hi', 'hi', 'Hola', 'hola', 'hey', 'Hey', 'greet', 'Greet'];
+    controller.hears(greetings, 'direct_message,direct_mention', function(bot, message) {
+        console.log(message.text);
+        bot.startConversation(message, function(error, convo){
+          console.log(message.text);
+          convo.say("Hello there!");
+          convo.next();
+          if(message.text.search("course")>=0){
+            convo.say("Absolutely!");
+            convo.next();
+            course_selection_help(convo);
+          }else{
+            ask_for_course_suggestion(convo);
+          }
+        });
+    });
+
+    controller.hears(['help','Help','HELP'], 'direct_message,direct_mention', function(bot, message){
+      bot.startConversation(message, function(error, convo){
+        convo.say("I can help you with the course selection.");
+        convo.next();
+        if(message.text.search("course")>=0){
+          convo.say("Absolutely!");
+          convo.next();
+          course_selection_help(convo);
+        }else{
+          ask_for_course_suggestion(convo);
+        }
+      });
+    });
+
+    var response_to_thankyou = ["Happy to help!", "Glad I could help you!", "You're welcome!", "No problem!", "Don't mention it!"];
+    controller.hears(['thank', 'Thank', 'appreciate', 'Appreciate'], 'direct_message,direct_mention', function(bot, message){
+      bot.startConversation(message, function(error, convo){
+        console.log(response_to_thankyou.length);
+        var idx = Math.floor((Math.random())*(response_to_thankyou.length-0.1));
+        console.log(idx);
+        convo.say(response_to_thankyou[idx]);
+        convo.next();
+      });
+    });
+};
