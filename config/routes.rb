@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tracks
   resources :professors
   resources :courses
   devise_for :students
