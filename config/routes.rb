@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :schedules
+  resources :average_grades
   resources :tracks
   resources :professors
   resources :courses
