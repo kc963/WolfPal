@@ -7,8 +7,8 @@
     "question": "What was your grade in undergrad? ",
     "answer": ""
   },
-  "": {
-    "question": "How you grade yourself in completing projects successfully?",
+  "project": {
+    "question": "How you grade yourself in completing projects successfully? (0-5)",
     "answer": ""
   }
 }
