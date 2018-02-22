@@ -6,13 +6,14 @@
     <div id="navbar">
       <ul class="nav navbar-nav">
         <li><%= link_to 'Home', root_path %></li>
+        <li><%= link_to 'Your Plan', root_path %></li>
 
       </ul>
       <ul class="nav navbar-nav pull-right">
         <% if student_signed_in? %>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                <%= current_student.first_name %>
+                <%= current_student.first_name.humanize %>
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu" role="menu">

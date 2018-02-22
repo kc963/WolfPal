@@ -10,7 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211033843) do
+ActiveRecord::Schema.define(version: 20180218070647) do
+
+  create_table "average_grades", force: :cascade do |t|
+    t.integer "A"
+    t.integer "B"
+    t.integer "C"
+    t.integer "D"
+    t.integer "Other"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "syllabus_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "code"
+    t.integer "syllabus_id"
+    t.string "prerequisites"
+    t.string "course_name"
+    t.boolean "core"
+    t.integer "channel_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "professors", force: :cascade do |t|
+    t.string "email_id"
+    t.string "name"
+    t.string "website"
+    t.string "research"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "schedules", force: :cascade do |t|
+    t.string "semester"
+    t.string "day"
+    t.string "time"
+    t.boolean "project"
+    t.boolean "fieldwork"
+    t.integer "ratings"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "syllabus_id"
+  end
 
   create_table "students", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -31,6 +74,17 @@ ActiveRecord::Schema.define(version: 20180211033843) do
     t.integer "sem"
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
+  end
+
+  create_table "tracks", force: :cascade do |t|
+    t.string "name"
+    t.integer "core"
+    t.integer "alg"
+    t.integer "dse"
+    t.integer "ss"
+    t.integer "sf"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
