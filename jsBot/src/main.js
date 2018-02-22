@@ -71,12 +71,10 @@ var Chat = function() {
             topic = "interest";
             requiredInt();
         }
-
         else if (profile.ugg.answer === ""){
             topic = "ugg";
             requiredUgg();
         }
-
         else if (profile.project.answer === ""){
             topic = "project";
             requiredPro();
@@ -85,11 +83,6 @@ var Chat = function() {
             topic = "other";
             other();
         }
-
-
-        //scrollDown();
-
-
     }
 
     function other() {
@@ -114,7 +107,12 @@ var Chat = function() {
     }
 
     function suggestion() {
-        output("give suggestion", true, 500);
+        recommend.setProfile(profile.interest.answer, profile.ugg.answer, profile.project.answer);
+        let print = recommend.makeRecommend();
+
+        for (let p of print){
+            output(p, true, 500);
+        }
     }
     function detail(course) {
         output("give detail of " + course , true, 500);
@@ -125,6 +123,7 @@ var Chat = function() {
     function init() {
         output('Hey pal, I can help you with course selection, if you tell me a bit about yourself.', true);
         talk();
+
     }
 
     return {
