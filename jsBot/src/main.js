@@ -1,7 +1,13 @@
+/*
+ * The structure of chat bot is reference form "tscok"
+ * code( http://jsfiddle.net/tscok/0jyu98L2/ )
+ */
+
 var Chat = function() {
     var messages = document.querySelector('.messages');
+    var topic = "";//for input search
+
     var request = new XMLHttpRequest();
-    var topic = "";
     request.open("GET", "data/profile.json", false);
     request.send(null);
     var profile = JSON.parse(request.responseText);
@@ -34,35 +40,31 @@ var Chat = function() {
     }
 
     function handleInput(input) {
-
+        input = input.trim();
         switch(topic){
             case "interest":
                 profile.interest.answer = input;
-                talk();
                 break;
             case "ugg":
                 if (input>=0 && input<=5)
                     profile.ugg.answer = input;
                 else
                     output("number must between 0 and 5", true);
-                talk();
                 break;
             case "project":
                 if (input>=0 && input<=5)
                     profile.project.answer = input;
                 else
                     output("number must between 0 and 5", true);
-                talk();
                 break;
             case "other":
                 if (input === "suggest")
                     suggestion();
                 else
                     detail(input);
-                talk();
                 break;
         }
-
+        talk();
     }
 
     function talk() {
@@ -136,3 +138,5 @@ var Chat = function() {
 (function(){
     Chat.init();
 }());
+
+

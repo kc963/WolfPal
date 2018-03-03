@@ -21,8 +21,8 @@ class Recommend{
         this.interest = "";
         this.ugg = 0;
         this.project = 0;
-        this.subjectList = [];
-        this.diffList = new Map();
+        this.subjectList = [];//the list of courses related to the subject you interested
+        this.diffList = new Map();//difficulty list (contain all course the user query)
 
         this.test();
     }
@@ -32,7 +32,7 @@ class Recommend{
         c.set("se", 1, 2, 2, 2);
         this.subjectList.push(c);
         let a = new Course();
-        a.set("devOps", 1, 2, 0, 2);
+        a.set("devOps", 1, 3, 2, 1);
         this.subjectList.push(a);
     }
 
