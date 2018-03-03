@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180218070647) do
+ActiveRecord::Schema.define(version: 20180303185930) do
 
   create_table "average_grades", force: :cascade do |t|
     t.integer "A"
@@ -53,6 +53,16 @@ ActiveRecord::Schema.define(version: 20180218070647) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "syllabus_id"
+  end
+
+  create_table "static_workloads", force: :cascade do |t|
+    t.integer "syllabus_id"
+    t.decimal "core", precision: 4, scale: 2
+    t.decimal "assignments", precision: 4, scale: 2
+    t.decimal "exams", precision: 4, scale: 2
+    t.decimal "project", precision: 4, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "students", force: :cascade do |t|
