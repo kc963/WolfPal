@@ -50,6 +50,7 @@ class DataSearch{
         switch(subject){
             case "data science":
                 list = list.concat(this.category.DSC);
+                list = list.concat(this.category.ALG);
                 break;
             case "software engineering":
                 list = list.concat(this.category.SEC);
