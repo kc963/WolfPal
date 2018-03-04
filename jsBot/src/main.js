@@ -40,26 +40,29 @@ var Chat = function() {
     }
 
     function handleInput(input) {
-        input = input.trim();
         switch(topic){
+            /*
             case "interest":
                 profile.interest.answer = input;
                 break;
+                */
             case "ugg":
-                if (input>=0 && input<=5)
+                if ( input>=0 && input<=5)
                     profile.ugg.answer = input;
                 else
                     output("number must between 0 and 5", true);
                 break;
             case "project":
-                if (input>=0 && input<=5)
+                if (input>=0 && input<=5) {
                     profile.project.answer = input;
+                    recommend.setProfile(profile.interest.answer, profile.ugg.answer, profile.project.answer);
+                }
                 else
                     output("number must between 0 and 5", true);
                 break;
             case "other":
-                if (input === "suggest")
-                    suggestion();
+                if (input.includes("suggest"))
+                    suggestion(input);
                 else
                     detail(input);
                 break;
@@ -68,12 +71,12 @@ var Chat = function() {
     }
 
     function talk() {
-
+/*
         if (profile.interest.answer === ""){
             topic = "interest";
             requiredInt();
         }
-        else if (profile.ugg.answer === ""){
+        else*/ if (profile.ugg.answer === ""){
             topic = "ugg";
             requiredUgg();
         }
@@ -88,9 +91,8 @@ var Chat = function() {
     }
 
     function other() {
-        output("Type \"suggest\" for suggest course based on your interesting subject, " +
-            "or type \"course name\" for course detail", true, 500);
-        console.log("other");
+        output("Type \"suggest + subject\" for suggest courses based on the subject, " +
+            "or type \"average + course_name\" for course detail", true, 500);
     }
 
     function requiredInt() {
@@ -108,16 +110,34 @@ var Chat = function() {
         output(question, true, 500);
     }
 
-    function suggestion() {
-        recommend.setProfile(profile.interest.answer, profile.ugg.answer, profile.project.answer);
-        let print = recommend.makeRecommend();
+    function suggestion(input) {
 
-        for (let p of print){
-            output(p, true, 500);
+        let subject = "";
+        if (input.includes("data science"))
+            subject = "data science";
+        else if (input.includes("software engineering"))
+            subject = "software engineering";
+        else if (input.includes("algorithm"))
+            subject = "algorithm";
+        else if (input.includes("application"))
+            subject = "application";
+        else if (input.includes("system"))
+            subject = "system";
+        else if (input.includes("software security"))
+            subject = "software security";
+
+        if (subject != "") {
+            let print = recommend.makeRecommend(subject);
+            for (let p of print) {
+                output(p, true, 500);
+            }
         }
+        else
+            output("Sorry, can't find courses related to this subject", true, 500);
     }
     function detail(course) {
-        output("give detail of " + course , true, 500);
+        var string = "give detail of ";
+        output( string , true, 500);
     }
 
 
