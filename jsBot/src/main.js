@@ -127,9 +127,12 @@ var Chat = function() {
             subject = "software security";
 
         if (subject != "") {
+            output("The courses related to " + subject + " is: " , true);
+            output( dataSearch.getCourseList_name(subject) , true);
+            output("Top 4 recommendations for you is: ", true);
             let print = recommend.makeRecommend(subject);
             for (let p of print) {
-                output(p, true, 500);
+                output(p, true);
             }
         }
         else

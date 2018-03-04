@@ -1,6 +1,6 @@
 .chat {
     width: 320px;
-    height: 400px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -15,7 +15,7 @@
     /*justify-content: flex-end;*/
     background: skyblue;
     overflow: auto;
-    height: 390px;
+    height: 490px;
 }
 .message {
     margin: 2px 16px;
@@ -34,4 +34,5 @@
     background: #fff;
     padding: 10px;
     outline: none;
+    height: 15px;
 }
