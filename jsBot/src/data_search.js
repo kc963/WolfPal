@@ -20,7 +20,7 @@ class DataSearch{
 
     getCourseName(id){
         for (let m of this.course){
-            if (id == m.syllabus_id){
+            if (id === m.syllabus_id){
                 return m.course_name;
             }
         }
@@ -30,14 +30,14 @@ class DataSearch{
 
     getWorkload(id){
         for (let w of this.workload){
-            if (id == w.syllabus_id){
-                let c = new Course();
+            if (id === w.syllabus_id){
+                let c = new Workload();
                 c.set(this.getCourseName(id), w.core, w.assignments, w.exams, w.project);
                 return c;
             }
         }
         console.log("can't getWorkload of this id: " + id);
-        let c = new Course();
+        let c = new Workload();
         c.name = this.getCourseName(id);
         return c;
     }
@@ -45,7 +45,7 @@ class DataSearch{
     /*
         give subject name then return a list of course that related to the subject
      */
-    getCourseList_number(subject){
+    makeCourseList_number(subject){
         let list = [];
         switch(subject){
             case "data science":
@@ -74,8 +74,8 @@ class DataSearch{
 
     }//end of getCourseList
 
-    getCourseList_name(subject){
-        let list = this.getCourseList_number(subject);
+    makeCourseList_name(subject){
+        let list = this.makeCourseList_number(subject);
         let cNameList = [];
         for(let l of list){
             cNameList.push(this.getCourseName(l));
@@ -87,5 +87,5 @@ class DataSearch{
 }
 
 const dataSearch = new DataSearch();
-let a = dataSearch.getWorkload(14);
-console.log(a.name + ", " + a.core + ", " + a.assingment + ", " + a.exam + ", " + a.project);
+//let a = dataSearch.getWorkload(14);
+//console.log(a.name + ", " + a.core + ", " + a.assingment + ", " + a.exam + ", " + a.project);

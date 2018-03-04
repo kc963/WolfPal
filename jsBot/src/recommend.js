@@ -1,22 +1,3 @@
-class Course{
-    constructor(){
-        //default highest workload
-        this.name = "";
-        this.core = 1;
-        this.assingment = 2;
-        this.exam = 2;
-        this.project = 2;
-    }
-
-    set(name, core, assignment, exam, project){
-        this.name = name;
-        this.core = core;
-        this.assingment = assignment;
-        this.exam = exam;
-        this.project = project;
-    }
-}
-
 class Recommend{
     constructor(){
         this.interest = "";
@@ -44,7 +25,7 @@ class Recommend{
 
     makeSubjectList(subject){
         this.subjectList = [];
-        let idList = dataSearch.getCourseList_number(subject);
+        let idList = dataSearch.makeCourseList_number(subject);
         for (let il of idList) {
             this.subjectList.push(dataSearch.getWorkload(il));
         }

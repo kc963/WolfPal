@@ -5,7 +5,8 @@
 
 var Chat = function() {
     var messages = document.querySelector('.messages');
-    var topic = "";//for input search
+    var topic = "";//input switch
+    var subject = ""; //execute on "other" topic
 
     var request = new XMLHttpRequest();
     request.open("GET", "data/profile.json", false);
@@ -50,7 +51,7 @@ var Chat = function() {
                 if ( input>=0 && input<=5)
                     profile.ugg.answer = input;
                 else
-                    output("number must between 0 and 5", true);
+                    output("Number must between 0 and 5.", true);
                 break;
             case "project":
                 if (input>=0 && input<=5) {
@@ -58,7 +59,7 @@ var Chat = function() {
                     recommend.setProfile(profile.interest.answer, profile.ugg.answer, profile.project.answer);
                 }
                 else
-                    output("number must between 0 and 5", true);
+                    output("Number must between 0 and 5.", true);
                 break;
             case "other":
                 if (input.includes("suggest"))
@@ -92,7 +93,7 @@ var Chat = function() {
 
     function other() {
         output("Type \"suggest + subject\" for suggest courses based on the subject, " +
-            "or type \"average + course_name\" for course detail", true, 500);
+            "or type \"course_name\" to get course detail.", true, 500);
     }
 
     function requiredInt() {
@@ -110,9 +111,8 @@ var Chat = function() {
         output(question, true, 500);
     }
 
-    function suggestion(input) {
-
-        let subject = "";
+    function getSubject(input){
+        //let subject = "";
         if (input.includes("data science"))
             subject = "data science";
         else if (input.includes("software engineering"))
@@ -125,10 +125,14 @@ var Chat = function() {
             subject = "system";
         else if (input.includes("software security"))
             subject = "software security";
+    }
 
-        if (subject != "") {
+    function suggestion(input) {
+        getSubject(input);
+
+        if (subject !== "") {
             output("The courses related to " + subject + " is: " , true);
-            output( dataSearch.getCourseList_name(subject) , true);
+            output( dataSearch.makeCourseList_name(subject) , true);
             output("Top 4 recommendations for you is: ", true);
             let print = recommend.makeRecommend(subject);
             for (let p of print) {
@@ -136,10 +140,12 @@ var Chat = function() {
             }
         }
         else
-            output("Sorry, can't find courses related to this subject", true, 500);
+            output("Sorry, can't find courses related to this subject.", true, 500);
     }
-    function detail(course) {
-        var string = "give detail of ";
+
+    function detail(input) {
+
+        var string = "Give detail of " + input;
         output( string , true, 500);
     }
 
