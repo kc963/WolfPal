@@ -10,4 +10,8 @@ class Student < ApplicationRecord
 
   enum sem: [:fall, :spring]
 
+  def admin
+    TRUE
+    #has_role?(:admin)
+  end
 end
