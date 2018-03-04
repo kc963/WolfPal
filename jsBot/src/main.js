@@ -4,6 +4,7 @@
  */
 
 var Chat = function() {
+    var dataSearch = new DataSearch();
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
     var subject = ""; //execute on "other" topic
@@ -144,8 +145,9 @@ var Chat = function() {
     }
 
     function detail(input) {
-
-        var string = "Give detail of " + input;
+        var courseId = dataSearch.getCourseId(input);
+        var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
+        var string = "Average grade of " + input + " as per last years data is " + courseAverage;
         output( string , true, 500);
     }
 

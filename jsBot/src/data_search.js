@@ -28,6 +28,37 @@ class DataSearch{
         return "";
     }
 
+    getCourseId(name){
+        for (let c of this.course){
+            if (name.localeCompare(c.course_name) == 0){
+                //alert(name + "," + c.course_name + "," + c.syllabus_id);
+                return c.syllabus_id;
+            }
+        }
+        return -1;
+    }
+
+    getCourseAverage(id){
+        if ( id === -1){
+            return -1;
+        }
+        for (let c of this.average){
+            if (id === c.syllabus_id){
+                var total = c.A + c.B + c.C + c.D + c.Other;
+                var median = total/2;
+                var list = {'A':c.A, 'B':c.B, 'C':c.C, 'D':c.D, 'Other':c.Other};
+                var i=-1;
+                var items = Object.values(list)[++i];
+                while (median > items && i<Object.keys(list).length){
+                    median -= items;
+                    items = Object.keys(list)[++i];
+                }
+                return Object.keys(list)[i];
+            }
+        }
+        return -1;
+    }
+
     getWorkload(id){
         for (let w of this.workload){
             if (id === w.syllabus_id){
