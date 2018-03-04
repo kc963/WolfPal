@@ -24,8 +24,6 @@ class Recommend{
         this.project = 0;
         this.subjectList = [];//the list of courses related to the subject you interested
         this.diffList = new Map();//difficulty list (contain all course the user query)
-
-
     }
 /*
     test(){
@@ -45,8 +43,6 @@ class Recommend{
     }
 
     makeSubjectList(subject){
-        //TODO
-        //this.test();
         this.subjectList = [];
         let idList = dataSearch.getCourseList_number(subject);
         for (let il of idList) {
@@ -55,11 +51,13 @@ class Recommend{
     }
 
     makeRecommend(subject){
-        this.makeSubjectList(subject);//right now use test()
+        this.makeSubjectList(subject);
         this.add2diffList();
         let count = 1;
         let print = [];
-        for (let [key, value] of this.diffList) {     // get data sorted
+        for (let [key, value] of this.diffList) {
+            if (count > 4)
+                break;
             print.push(count + ". " + key + ", difficulty: " + value);
             count++;
         }
@@ -68,32 +66,27 @@ class Recommend{
 
 
     getDifficulty(course) {
-        let string = "";
         let difficulty = course.core;
-        //string += difficulty + ",a ";
 
-        if (course.assingment > this.ugg)
-            difficulty += course.assingment - this.ugg;
-        //string += this.ugg + ",e ";
+        if (course.assingment > this.ugg) {
+            difficulty += (course.assingment - this.ugg);
+        }
 
-        if (course.exam > this.ugg)
-            difficulty += course.exam - this.ugg;
-        //string += this.ugg + ",p "
+        if (course.exam > this.ugg) {
+            difficulty += (course.exam - this.ugg);
+        }
 
-        if (course.project > this.project)
-            difficulty += course.project - this.project;
-        //string += course.project - this.project;
+        if (course.project > this.project) {
+            difficulty += (course.project - this.project);
+        }
 
-        console.log(string);
-        return difficulty;
+        return difficulty.toFixed(2);
     }
 
     add2diffList(){
         this.diffList = new Map();
 
         for (let course of this.subjectList){
-            //if ( !this.diffList.get(course.name) )
-            console.log("course name " + course.name + ", diff" + this.getDifficulty(course));
             this.diffList.set(course.name, this.getDifficulty(course));
         }
 
