@@ -138,5 +138,3 @@ var Chat = function() {
 (function(){
     Chat.init();
 }());
-
-

@@ -6,7 +6,6 @@
     overflow: hidden;
     border-radius: 5px;
     border: 1px solid black;
-
 }
 .messages {
     flex: 1;
