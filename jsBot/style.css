@@ -13,7 +13,7 @@
     display: flex;
     flex-direction: column;
     /*justify-content: flex-end;*/
-    background: skyblue;
+    background: #fcf4f4 ;
     overflow: auto;
     height: 400px;
 }
@@ -21,17 +21,17 @@
     margin: 2px 16px;
     padding: 10px;
     border-radius: 5px;
-    background: #fff;
+    background: white;
     align-self: flex-end;
     box-shadow: 0 2px 10px rgba(0,0,0,.1);
 }
 .message.bot {
     /*background: aliceblue;*/
-    background:  #dcf9fe ;
+    background:  #ffcccc ;
     align-self: flex-start;
 }
 .button {
-    background: #4CA3ED;
+    background: #e00;
     border-radius: 20px;
     padding: 10px 15px 10px 15px;
     border: 1px;
@@ -47,7 +47,7 @@
   border-radius: 20px;
   padding: 10px 15px 10px 15px;
   border: 1px;
-  border-color: #EFF8FE;
+  border-color: #eee;
   margin: 2px 16px;
   box-shadow: 0 2px 10px rgba(0,0,0,0);
   align-self: flex-start;
@@ -55,11 +55,12 @@
   color: #4CA3ED;
 }
 .chathead {
-  background: #fff;
+  background: #f00;
   padding: 10px;
   outline: none;
-  margin: auto;
+  width: 100%;
   font-family: monospace;
+  text-align: center;
 }
 .input {
     background: #fff;
