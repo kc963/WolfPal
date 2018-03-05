@@ -8,12 +8,40 @@ var Chat = function() {
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
     var subject = ""; //execute on "other" topic
+    var beginselection = false;
 
     var request = new XMLHttpRequest();
     request.open("GET", "data/profile.json", false);
     request.send(null);
     var profile = JSON.parse(request.responseText);
 
+    function outputButton(text, id, delay){
+        var delay = delay || 0;
+        var b = document.createElement('BUTTON');
+        b.appendChild(document.createTextNode(text));
+        b.className = 'button';
+        b.setAttribute("id", id);
+        b.setAttribute("onClick", "Chat.pressedButton(this.id)");
+        setTimeout(function(){
+            messages.appendChild(b);
+            var objDiv = document.getElementById("chatText");
+            objDiv.scrollTop = objDiv.scrollHeight;
+        },delay);
+    }
+
+    function pressedButton(id){
+        //alert("Button pressed: " + document.getElementById(id).innerHTML);
+        document.getElementsByName("input")[0].setAttribute("contenteditable", "true");
+        topic = id;
+        switch(topic){
+            case "suggest_course":
+                getAoI();
+                break;
+            case "course_detail":
+                getCourse();
+                break;
+        }
+    }
 
     function output(text, bot, delay) {
         var bot = bot || false;
@@ -43,11 +71,6 @@ var Chat = function() {
 
     function handleInput(input) {
         switch(topic){
-            /*
-            case "interest":
-                profile.interest.answer = input;
-                break;
-                */
             case "ugg":
                 if ( input>=0 && input<=5)
                     profile.ugg.answer = input;
@@ -62,23 +85,20 @@ var Chat = function() {
                 else
                     output("Number must between 0 and 5.", true);
                 break;
-            case "other":
-                if (input.includes("suggest"))
-                    suggestion(input);
-                else
-                    detail(input);
+            case "suggest_course":
+                suggestion(input);
+                //beginselection = true;
+                break;
+            case "course_detail":
+                detail(input);
+                //beginselection = true;
                 break;
         }
         talk();
     }
 
     function talk() {
-/*
-        if (profile.interest.answer === ""){
-            topic = "interest";
-            requiredInt();
-        }
-        else*/ if (profile.ugg.answer === ""){
+        if (profile.ugg.answer === ""){
             topic = "ugg";
             requiredUgg();
         }
@@ -88,13 +108,23 @@ var Chat = function() {
         }
         else {
             topic = "other";
-            other();
+            setTimeout(function(){
+                other();
+            }, 1000);
         }
     }
 
     function other() {
-        output("Type \"suggest + subject\" for suggest courses based on the subject, " +
-            "or type \"course_name\" to get course detail.", true, 500);
+        //output("Type \"suggest + subject\" for suggest courses based on the subject, " +
+        //    "or type \"course_name\" to get course detail.", true, 500);
+        //if(!beginselection){
+        //    sleep(1000);
+        //}
+        document.getElementsByName("input")[0].setAttribute("contenteditable", "false");
+        output("Pick one category below in which you need help", 500);
+        outputButton("Suggest Course", "suggest_course",500);
+        outputButton("Course Detail", "course_detail",500);
+        //  beginselection = false;
     }
 
     function requiredInt() {
@@ -110,6 +140,9 @@ var Chat = function() {
     function requiredPro() {
         var question = profile.project.question;
         output(question, true, 500);
+        setTimeout(function(){
+            beginselection = true;
+        }, 500);
     }
 
     function getSubject(input){
@@ -132,16 +165,21 @@ var Chat = function() {
         getSubject(input);
 
         if (subject !== "") {
-            output("The courses related to " + subject + " is: " , true);
-            output( dataSearch.makeCourseList_name(subject) , true);
-            output("Top 4 recommendations for you is: ", true);
-            let print = recommend.makeRecommend(subject);
-            for (let p of print) {
-                output(p, true);
-            }
+            //output("The courses related to " + subject + " is: " , true);
+            //output( dataSearch.makeCourseList_name(subject) , true);
+            //setTimeout(function(){
+                output("Top 4 recommendations for you is: ", true, 500);
+                let print = recommend.makeRecommend(subject);
+                for (let p of print) {
+                    output(p, true, 550);
+                }
+            //}, 500);
         }
         else
             output("Sorry, can't find courses related to this subject.", true, 500);
+        //setTimeout(function(){
+        //    beginselection = true;
+        //}, 500);
     }
 
     function detail(input) {
@@ -149,9 +187,23 @@ var Chat = function() {
         var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
         var string = "Average grade of " + input + " as per last years data is " + courseAverage;
         output( string , true, 500);
+        setTimeout(function(){
+            beginselection = true;
+        }, 500);
     }
 
+    function getCourse(){
+        output("Can you tell me the course name?", true, 500);
+    }
 
+    function getAoI(){
+        output("Can you tell me your area of interest?", true, 500);
+    }
+
+    function sleep(ms){
+        var start_time = new Date().getTime();
+        while((new Date().getTime() - start_time) < ms);
+    }
 
     function init() {
         output('Hey pal, I can help you with course selection, if you tell me a bit about yourself.', true);
@@ -161,7 +213,8 @@ var Chat = function() {
 
     return {
         init: init,
-        input: input
+        input: input,
+        pressedButton: pressedButton
     }
 
 }();
