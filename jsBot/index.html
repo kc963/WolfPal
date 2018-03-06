@@ -1,11 +1,16 @@
 <body>
-  <div class="chat">
-    <div class="chathead" id="chathead">WolfPal</div>
+  <div class="chat" name="chatwindow">
+    <div class="chathead" id="chathead">
+      <div class="chatheading" name="chatheading">WolfPal</div>
+      <div class="close" name="close" onclick="chatwindowhide()">X</div>
+    </div>
     <div class="messages" id="chatText"></div>
     <div name="input" class="input" onkeydown="Chat.input(event)" contenteditable="true"></div>
     <link rel="stylesheet" type="text/css" href="style.css">
   </div>
+  <div class="botbutton" name="botbutton" onclick="chatwindowshow()">Contact WolfPal</div>
 </body>
+<script type="text/javascript" src="src/chatboxview.js"></script>
 <script type="text/javascript" src="src/data_search.js"></script>
 <script type="text/javascript" src="src/main.js"></script>
 <script type="text/javascript" src="src/recommend.js"></script>
