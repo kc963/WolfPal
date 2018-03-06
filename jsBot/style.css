@@ -1,7 +1,7 @@
 .chat {
-    width: 320px;
+    width: 22%;
     height: 100%;
-    display: none;
+    display: flex;
     flex-direction:column;
     overflow: hidden;
     border-radius: 5px;
@@ -9,6 +9,9 @@
     float: right;
     position: fixed;
     right: 0;
+    bottom: 0;
+    -webkit-transition: all  0.75s;
+    transition: all 0.75s;
 }
 .messages {
     flex: 1;
@@ -86,16 +89,21 @@
   margin-left: auto;
 */}
 .botbutton {
-  z-index: 1.5;
+  z-index: 0.9;
   padding: 10px 25px 10px 25px;
   border: 5px solid white;
-  height: 25px;
+  width: 10%;
+  height: 5%;
+  font-size: 125%;
   background-color: #ff1a1a;
   border-radius: 10px;
   position: fixed;
   display: block;
   bottom: 0;
   right: 0;
+  transition: all 0.75s;
+  -webkit-transition: all 0.75s;
+  overflow: hidden;
 }
 .input {
     background: #fff;
