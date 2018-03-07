@@ -13,8 +13,31 @@
 #leftFrame{
   width: 75%;
   overflow: auto;
-  float: left
+  float: left;
+  padding-left: 1%;
 }
+
+#search-criteria{
+  border-collapse:separate;
+  border-spacing:0 7px;
+  cellspacing: 10px;
+}
+
+#rightFrame{
+  width: 25%;
+  overflow: auto;
+  padding-left: 1%
+}
+
+#rightFrame td{
+  padding:0 5px 0 5px;
+}
+
+#add_course{
+  font-size: 20px;
+  color: darkslategrey;
+}
+
 
 .panel-heading .accordion-toggle:after {
   /* symbol for "opening" panels */
