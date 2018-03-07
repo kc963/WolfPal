@@ -8,7 +8,6 @@ var Chat = function() {
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
     var subject = ""; //execute on "other" topic
-    var beginselection = false;
 
     var request = new XMLHttpRequest();
     request.open("GET", "data/profile.json", false);
@@ -70,6 +69,8 @@ var Chat = function() {
     }
 
     function handleInput(input) {
+        input = input.toLowerCase();
+        console.log(input);
         switch(topic){
             case "ugg":
                 if ( input>=0 && input<=5)
@@ -87,11 +88,19 @@ var Chat = function() {
                 break;
             case "suggest_course":
                 suggestion(input);
-                //beginselection = true;
                 break;
             case "course_detail":
+            console.log(input);
+                input = input.charAt(0).toUpperCase() + input.slice(1);
+                console.log(input);
+                var str = input;
+                while(str.indexOf(' ') >=0){
+                    var i = str.indexOf(' ');
+                    str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
+                    input = input.substring(0, i+1) + str;
+                }
+                console.log(input);
                 detail(input);
-                //beginselection = true;
                 break;
         }
         talk();
@@ -117,14 +126,12 @@ var Chat = function() {
     function other() {
         //output("Type \"suggest + subject\" for suggest courses based on the subject, " +
         //    "or type \"course_name\" to get course detail.", true, 500);
-        //if(!beginselection){
         //    sleep(1000);
         //}
         document.getElementsByName("input")[0].setAttribute("contenteditable", "false");
         output("Pick one category below in which you need help", 500);
         outputButton("Suggest Course", "suggest_course",500);
         outputButton("Course Detail", "course_detail",500);
-        //  beginselection = false;
     }
 
     function requiredInt() {
@@ -140,9 +147,6 @@ var Chat = function() {
     function requiredPro() {
         var question = profile.project.question;
         output(question, true, 500);
-        setTimeout(function(){
-            beginselection = true;
-        }, 500);
     }
 
     function getSubject(input){
@@ -177,9 +181,6 @@ var Chat = function() {
         }
         else
             output("Sorry, can't find courses related to this subject.", true, 500);
-        //setTimeout(function(){
-        //    beginselection = true;
-        //}, 500);
     }
 
     function detail(input) {
@@ -187,9 +188,6 @@ var Chat = function() {
         var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
         var string = "Average grade of " + input + " as per last years data is " + courseAverage;
         output( string , true, 500);
-        setTimeout(function(){
-            beginselection = true;
-        }, 500);
     }
 
     function getCourse(){
