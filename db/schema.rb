@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180303222225) do
+ActiveRecord::Schema.define(version: 20180306212529) do
 
   create_table "average_grades", force: :cascade do |t|
     t.integer "A"
@@ -24,10 +24,11 @@ ActiveRecord::Schema.define(version: 20180303222225) do
   end
 
   create_table "courses", force: :cascade do |t|
-    t.string "code"
+    t.integer "code"
     t.integer "syllabus_id"
     t.string "prerequisites"
     t.string "course_name"
+    t.string "description"
     t.boolean "core"
     t.integer "channel_id"
     t.datetime "created_at", null: false
@@ -64,7 +65,8 @@ ActiveRecord::Schema.define(version: 20180303222225) do
     t.integer "ratings"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "syllabus_id"
+    t.integer "course_id"
+    t.index ["course_id"], name: "index_schedules_on_course_id"
   end
 
   create_table "static_workloads", force: :cascade do |t|
@@ -330,6 +332,15 @@ ActiveRecord::Schema.define(version: 20180303222225) do
     t.integer "sf"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "yourplans", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "courses"
+    t.integer "schedule_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["student_id"], name: "index_yourplans_on_student_id"
   end
 
 end

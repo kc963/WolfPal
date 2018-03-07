@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :yourplans
   resources :static_workloads
   resources :schedules
   resources :average_grades
