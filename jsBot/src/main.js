@@ -69,7 +69,7 @@ var Chat = function() {
     }
 
     function handleInput(input) {
-        input = input.toLowerCase();
+        input = input.replace("<br>", "").toLowerCase();
         console.log(input);
         switch(topic){
             case "ugg":
@@ -90,16 +90,13 @@ var Chat = function() {
                 suggestion(input);
                 break;
             case "course_detail":
-            console.log(input);
                 input = input.charAt(0).toUpperCase() + input.slice(1);
-                console.log(input);
                 var str = input;
                 while(str.indexOf(' ') >=0){
                     var i = str.indexOf(' ');
                     str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
                     input = input.substring(0, i+1) + str;
                 }
-                console.log(input);
                 detail(input);
                 break;
         }

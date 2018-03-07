@@ -21,7 +21,7 @@ class DataSearch{
     getCourseName(id){
         for (let m of this.course){
             if (id === m.syllabus_id){
-                return m.course_name;
+                return m.course_name.toLowerCase();
             }
         }
         console.log("can't find syllabusId: " + syllabusId);
@@ -30,7 +30,8 @@ class DataSearch{
 
     getCourseId(name){
         for (let c of this.course){
-            if (name.localeCompare(c.course_name) == 0){
+            //if (name.localeCompare(c.course_name) == 0){
+            if (name.toLowerCase() === c.course_name.toLowerCase()){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
                 return c.syllabus_id;
             }
@@ -119,5 +120,6 @@ class DataSearch{
 }
 
 const dataSearch = new DataSearch();
+//console.log("course name: " + dataSearch.getCourseName(1));
 //let a = dataSearch.getWorkload(14);
 //console.log(a.name + ", " + a.core + ", " + a.assingment + ", " + a.exam + ", " + a.project);
