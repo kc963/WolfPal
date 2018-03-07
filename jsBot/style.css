@@ -68,6 +68,7 @@
   clear: both;
   border: 1px solid black;
   display: inline-block;
+  color: white;
 }
 .chatheading {
 /*  z-index: 1;
@@ -104,6 +105,7 @@
   transition: all 0.75s;
   -webkit-transition: all 0.75s;
   overflow: hidden;
+  color: white;
 }
 .input {
     background: #fff;
