@@ -184,9 +184,16 @@ var Chat = function() {
 
     function detail(input) {
         var courseId = dataSearch.getCourseId(input);
+
         var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
         var string = "Average grade of " + input + " as per last years data is " + courseAverage;
         output( string , true, 500);
+
+        var coursePrereq = dataSearch.getCoursePrereq(courseId);
+        if (coursePrereq != null) {
+            string = "The prerequisites of " + input + " are " + coursePrereq;
+            output( string, true, 500);
+        }
     }
 
     function getCourse(){

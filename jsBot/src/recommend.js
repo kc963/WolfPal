@@ -6,16 +6,7 @@ class Recommend{
         this.subjectList = [];//the list of courses related to the subject you interested
         this.diffList = new Map();//difficulty list (contain all course the user query)
     }
-/*
-    test(){
-        let c = new Course();
-        c.set("se", 1, 2, 2, 2);
-        this.subjectList.push(c);
-        let a = new Course();
-        a.set("devOps", 1, 3, 2, 1);
-        this.subjectList.push(a);
-    }
-*/
+
     setProfile(interest, ugg, project){
         this.interest = interest;
         this.ugg = (ugg*2/5).toFixed(2);

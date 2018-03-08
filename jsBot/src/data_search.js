@@ -29,14 +29,26 @@ class DataSearch{
     }
 
     getCourseId(name){
+        name = name.toLowerCase();
         for (let c of this.course){
             //if (name.localeCompare(c.course_name) == 0){
-            if (name.toLowerCase() === c.course_name.toLowerCase()){
+            if (name === c.course_name.toLowerCase()){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
+                return c.syllabus_id;
+            }
+            if (name === c.code.toLowerCase()){
                 return c.syllabus_id;
             }
         }
         return -1;
+    }
+
+    getCoursePrereq(id){
+        for (let c of this.course) {
+            if (id === c.syllabus_id)
+                return c.prerequisites;
+        }
+        return null;
     }
 
     getCourseAverage(id){
