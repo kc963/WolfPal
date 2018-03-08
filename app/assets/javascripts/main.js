@@ -1,18 +1,43 @@
 /*
- * The structure of chat bot is reference form "tscok"
- * code( http://jsfiddle.net/tscok/0jyu98L2/ )
- */
+* The structure of chat bot is reference form "tscok"
+* code( http://jsfiddle.net/tscok/0jyu98L2/ )
+*/
 
 var Chat = function() {
-    var dataSearch = new DataSearch();
+    //var dataSearch = new DataSearch();
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
     var subject = ""; //execute on "other" topic
+    var profile = "";
+    initData();
 
-    var request = new XMLHttpRequest();
-    request.open("GET", "data/profile.json", false);
-    request.send(null);
-    var profile = JSON.parse(request.responseText);
+    /* var request = new XMLHttpRequest();
+     request.open("GET", "data/profile.json", false);
+     request.send(null);
+     var yourDataStr = JSON.stringify(request.responseText)*/
+
+
+    function loadJSON(callback) {
+
+        var xobj = new XMLHttpRequest();
+        xobj.overrideMimeType("application/json");
+        xobj.open('GET', 'assets/profile.json', true); // Replace 'my_data' with the path to your file
+        xobj.onreadystatechange = function () {
+            if (xobj.readyState == 4 && xobj.status == "200") {
+                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+                callback(xobj.responseText);
+            }
+        };
+        xobj.send(null);
+    }
+
+    function initData() {
+        loadJSON(function(response) {
+            // Parse JSON string into object
+            profile = JSON.parse(response);
+            alert("hey" + profile.ugg.question);
+        });
+    }
 
     function outputButton(text, id, delay){
         var delay = delay || 0;
@@ -90,7 +115,7 @@ var Chat = function() {
                 suggestion(input);
                 break;
             case "course_detail":
-            console.log(input);
+                console.log(input);
                 input = input.charAt(0).toUpperCase() + input.slice(1);
                 console.log(input);
                 var str = input;
@@ -172,11 +197,11 @@ var Chat = function() {
             //output("The courses related to " + subject + " is: " , true);
             //output( dataSearch.makeCourseList_name(subject) , true);
             //setTimeout(function(){
-                output("Top 4 recommendations for you is: ", true, 500);
-                let print = recommend.makeRecommend(subject);
-                for (let p of print) {
-                    output(p, true, 550);
-                }
+            output("Top 4 recommendations for you is: ", true, 500);
+            let print = recommend.makeRecommend(subject);
+            for (let p of print) {
+                output(p, true, 550);
+            }
             //}, 500);
         }
         else

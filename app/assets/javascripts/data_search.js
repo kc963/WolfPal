@@ -3,19 +3,23 @@ class DataSearch{
         let request = new XMLHttpRequest();
         request.open("GET", "data/main_course.json", false);
         request.send(null);
-        this.course = JSON.parse(request.responseText).main;
+        var yourDataStr = JSON.stringify(request.responseText)
+        this.course = JSON.parse(yourDataStr).main;
 
         request.open("GET", "data/average.json", false);
         request.send(null);
-        this.average = JSON.parse(request.responseText).average;
+        var yourDataStr = JSON.stringify(request.responseText)
+        this.average = JSON.parse(yourDataStr).average;
 
         request.open("GET", "data/workload.json", false);
         request.send(null);
-        this.workload = JSON.parse(request.responseText).workload;
+        var yourDataStr = JSON.stringify(request.responseText)
+        this.workload = JSON.parse(yourDataStr).workload;
 
         request.open("GET", "data/category.json", false);
         request.send(null);
-        this.category = JSON.parse(request.responseText);
+        var yourDataStr = JSON.stringify(request.responseText)
+        this.category = JSON.parse(yourDataStr);
     }
 
     getCourseName(id){
@@ -24,7 +28,7 @@ class DataSearch{
                 return m.course_name;
             }
         }
-        console.log("can't find syllabusId: " + syllabusId);
+        /*console.log("can't find syllabusId: " + syllabusId);*/
         return "";
     }
 
