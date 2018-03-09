@@ -7,7 +7,8 @@ var Chat = function() {
     var dataSearch = new DataSearch();
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
-    var subject = ""; //execute on "other" topic
+    var subject = "software engineering"; //execute on "other" topic
+    var buttonId = 0;
 
     var request = new XMLHttpRequest();
     request.open("GET", "data/profile.json", false);
@@ -20,6 +21,7 @@ var Chat = function() {
         b.appendChild(document.createTextNode(text));
         b.className = 'button';
         b.setAttribute("id", id);
+        b.setAttribute("name", id + buttonId);
         b.setAttribute("onClick", "Chat.pressedButton(this.id)");
         setTimeout(function(){
             messages.appendChild(b);
@@ -29,17 +31,44 @@ var Chat = function() {
     }
 
     function pressedButton(id){
-        //alert("Button pressed: " + document.getElementById(id).innerHTML);
+        console.log(id+(buttonId-1));
         document.getElementsByName("input")[0].setAttribute("contenteditable", "true");
+        document.getElementsByName(id+(buttonId-1))[0].setAttribute("style", "background:  #FF5733  ;");
         topic = id;
         switch(topic){
             case "suggest_course":
+                how2recommend();
+                break;
+            case "change_AOI":
                 getAoI();
                 break;
             case "course_detail":
                 getCourse();
                 break;
+            case "about_me":
+                aboutMe();
+                break;
+            case "recommend":
+                suggestion();
+                talk();
+                break;
+            case "related":
+                output("The courses related to " + subject + " is: " , true);
+                output( dataSearch.makeCourseList_name(subject) , true);
+                talk();
+                break;
+            default:
+                output(id, true, 500);
+                talk();
+
         }
+    }
+    function how2recommend() {
+        output("Your interest subject is '" + subject + "', what do you want to know?", true, 500);
+        outputButton("List of courses related to subject", "related", 500);
+        outputButton("Recommend courses", "recommend", 500);
+        outputButton("Change interest subject", "change_AOI", 500);
+        buttonId++;
     }
 
     function output(text, bot, delay) {
@@ -86,9 +115,6 @@ var Chat = function() {
                 else
                     output("Number must between 0 and 5.", true);
                 break;
-            case "suggest_course":
-                suggestion(input);
-                break;
             case "course_detail":
                 /*
                 input = input.charAt(0).toUpperCase() + input.slice(1);
@@ -100,6 +126,9 @@ var Chat = function() {
                 }
                 */
                 detail(input);
+                break;
+            case "aoi":
+                setSubject(input);
                 break;
         }
         talk();
@@ -116,6 +145,8 @@ var Chat = function() {
         }
         else {
             topic = "other";
+            //other();
+            //  TODO//why????
             setTimeout(function(){
                 other();
             }, 1000);
@@ -131,7 +162,11 @@ var Chat = function() {
         output("Pick one category below in which you need help", 500);
         outputButton("Suggest Course", "suggest_course",500);
         outputButton("Course Detail", "course_detail",500);
+        outputButton("About me", "about_me", 500);
+        buttonId++;
+
     }
+
 
     function requiredInt() {
         var question = profile.interest.question;
@@ -148,10 +183,12 @@ var Chat = function() {
         output(question, true, 500);
     }
 
-    function getSubject(input){
-        //let subject = "";
-        if (input.includes("data science"))
+    function setSubject(input){
+        //var subject = "";
+        if (input.includes("data science")) {
             subject = "data science";
+            how2recommend();
+        }
         else if (input.includes("software engineering"))
             subject = "software engineering";
         else if (input.includes("algorithm"))
@@ -162,57 +199,69 @@ var Chat = function() {
             subject = "system";
         else if (input.includes("software security"))
             subject = "software security";
+        else
+            output("Sorry, can't find courses related to this subject.", true, 500);
+
     }
 
-    function suggestion(input) {
-        getSubject(input);
+    function getCourse(){
+        output("Enter course name(Data Structures) or code(csc540).", true, 500);
+    }
+
+    function getAoI(){
+        topic = "aoi";
+        output("Can you tell me your area of interest?", true, 500);
+    }
+
+    function sleep(ms){
+        var start_time = new Date().getTime();
+        while((new Date().getTime() - start_time) < ms){}
+    }
+
+    function suggestion() {
 
         if (subject !== "") {
             //output("The courses related to " + subject + " is: " , true);
             //output( dataSearch.makeCourseList_name(subject) , true);
             //setTimeout(function(){
                 output("Top 4 recommendations for you is: ", true, 500);
-                let print = recommend.makeRecommend(subject);
-                for (let p of print) {
+                var print = recommend.makeRecommend(subject, topic);
+                for (var p of print) {
                     output(p, true, 550);
                 }
             //}, 500);
         }
-        else
-            output("Sorry, can't find courses related to this subject.", true, 500);
+        //else
+            //output("Sorry, can't find courses related to this subject.", true, 500);
     }
 
     function detail(input) {
         var courseId = dataSearch.getCourseId(input);
+        if (courseId <0)
+            output("Sorry, can't find this course, please try another course name", true, 500 );
+        else {
+            var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
+            output(" ''" + dataSearch.getCourseName(courseId)+ "'' ", true, 500);
+            var string = "Average grade on last year is: " + courseAverage;
+            output(string, true, 500);
 
-        var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
-        var string = "Average grade of " + input + " as per last years data is " + courseAverage;
-        output( string , true, 500);
-
-        var coursePrereq = dataSearch.getCoursePrereq(courseId);
-        if (coursePrereq != null) {
-            string = "The prerequisites of " + input + " are " + coursePrereq;
-            output( string, true, 500);
+            var coursePrereq = dataSearch.getCoursePrereq(courseId);
+            if (coursePrereq !== null) {
+                string = "The prerequisites are: " + coursePrereq;
+                output(string, true, 500);
+            }
         }
     }
 
-    function getCourse(){
-        output("Can you tell me the course name?", true, 500);
-    }
-
-    function getAoI(){
-        output("Can you tell me your area of interest?", true, 500);
-    }
-
-    function sleep(ms){
-        var start_time = new Date().getTime();
-        while((new Date().getTime() - start_time) < ms);
+    function aboutMe(){
+        //output("<a href=\"url\">string</a>",true);
+        output("<a href=\"https://github.com/ragarwa7/WolfPal\">See details on project github page</a>",true);
+        talk();
     }
 
     function init() {
         output('Hey pal, I can help you with course selection, if you tell me a bit about yourself.', true);
         talk();
-
     }
 
     return {

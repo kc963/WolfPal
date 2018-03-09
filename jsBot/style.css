@@ -36,7 +36,7 @@
     align-self: flex-start;
 }
 .button {
-    background: #e00;
+    background: #cc0001;
     border-radius: 20px;
     padding: 10px 15px 10px 15px;
     border: 1px;
@@ -60,7 +60,7 @@
   color: #4CA3ED;
 }
 .chathead {
-  background: #f00;
+  background: #cc0001;
   padding: 10px;
   outline: none;
   width: 100%;
@@ -96,7 +96,7 @@
   width: 10%;
   height: 5%;
   font-size: 125%;
-  background-color: #ff1a1a;
+  background-color: #cc0001  ;
   border-radius: 10px;
   position: fixed;
   display: block;

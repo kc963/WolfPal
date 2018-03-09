@@ -21,7 +21,7 @@ class DataSearch{
     getCourseName(id){
         for (let m of this.course){
             if (id === m.syllabus_id){
-                return m.course_name.toLowerCase();
+                return m.course_name;
             }
         }
         console.log("can't find syllabusId: " + syllabusId);
@@ -32,7 +32,7 @@ class DataSearch{
         name = name.toLowerCase();
         for (let c of this.course){
             //if (name.localeCompare(c.course_name) == 0){
-            if (name === c.course_name.toLowerCase()){
+            if (c.course_name.toLowerCase().includes(name)){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
                 return c.syllabus_id;
             }
@@ -121,12 +121,16 @@ class DataSearch{
 
     makeCourseList_name(subject){
         let list = this.makeCourseList_number(subject);
-        let cNameList = [];
-        for(let l of list){
-            cNameList.push(this.getCourseName(l));
+        let nameString = "";
+        for(let l = 0; l <list.length; l++){
+            if (l === 0)
+                nameString += (l+1) + ". " + this.getCourseName(list[l]);
+            else {
+                console.log(l.type);
+                nameString += ", " + (l+1) + ". " + this.getCourseName(list[l]);
+            }
         }
-        console.log("get course list(name): " + cNameList);
-        return cNameList;
+        return nameString;
     }
 
 }
