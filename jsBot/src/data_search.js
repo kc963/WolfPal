@@ -30,7 +30,7 @@ class DataSearch{
 
     getCourseId(name){
         for (let c of this.course){
-            if (name.localeCompare(c.course_name) == 0){
+            if (name.toLowerCase().localeCompare(c.course_name.toLowerCase()) == 0){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
                 return c.syllabus_id;
             }

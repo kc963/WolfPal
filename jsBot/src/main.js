@@ -69,8 +69,6 @@ var Chat = function() {
     }
 
     function handleInput(input) {
-        input = input.toLowerCase();
-        console.log(input);
         switch(topic){
             case "ugg":
                 if ( input>=0 && input<=5)
@@ -90,16 +88,6 @@ var Chat = function() {
                 suggestion(input);
                 break;
             case "course_detail":
-            console.log(input);
-                input = input.charAt(0).toUpperCase() + input.slice(1);
-                console.log(input);
-                var str = input;
-                while(str.indexOf(' ') >=0){
-                    var i = str.indexOf(' ');
-                    str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
-                    input = input.substring(0, i+1) + str;
-                }
-                console.log(input);
                 detail(input);
                 break;
         }
@@ -166,13 +154,13 @@ var Chat = function() {
     }
 
     function suggestion(input) {
-        getSubject(input);
+        getSubject(input.toLowerCase());
 
         if (subject !== "") {
             //output("The courses related to " + subject + " is: " , true);
             //output( dataSearch.makeCourseList_name(subject) , true);
             //setTimeout(function(){
-                output("Top 4 recommendations for you is: ", true, 500);
+                output("Top 4 recommendations for you are: ", true, 500);
                 let print = recommend.makeRecommend(subject);
                 for (let p of print) {
                     output(p, true, 550);
