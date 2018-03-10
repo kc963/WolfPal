@@ -12,15 +12,11 @@
 
 <% content_for :left_content do %>
     <%= render 'jsBot/index' %>
-        <h2>List of courses and relevant filters</h2>
-        <%= render 'courseList' %>
+    <h2>List of Computer Science courses</h2>
+    <%= render 'courseList' %>
 <% end %>
 
 
 <% content_for :right_content do %>
-    <!--<div class="jumbotron">
-      <div class="container">
-        List of selected course goes this side.
-      </div>
-    </div>-->
+    <%= render "courses/search" %>
 <% end %>
