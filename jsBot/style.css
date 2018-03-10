@@ -36,7 +36,7 @@
     align-self: flex-start;
 }
 .button {
-    background: #e00;
+    background: #cc0001;
     border-radius: 20px;
     padding: 10px 15px 10px 15px;
     border: 1px;
@@ -60,7 +60,7 @@
   color: #4CA3ED;
 }
 .chathead {
-  background: #f00;
+  background: #cc0001;
   padding: 10px;
   outline: none;
   width: 100%;
@@ -98,7 +98,12 @@
   border: 5px solid white;
   width: 10%;
   height: 5%;
+<<<<<<< HEAD
   background-color: #ff1a1a;
+=======
+  font-size: 125%;
+  background-color: #cc0001  ;
+>>>>>>> 0b486e4d50e4ae6bedc9294fa9db4388d23ca307
   border-radius: 10px;
   position: fixed;
   display: flex;
@@ -119,9 +124,5 @@
     background: #fff;
     padding: 10px;
     outline: none;
-<<<<<<< HEAD
-}
-=======
     height: 15px;
 }
->>>>>>> 0b46faa721d225aa73fe5427b6247f2ca0eeb032

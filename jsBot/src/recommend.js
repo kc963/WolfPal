@@ -4,18 +4,9 @@ class Recommend{
         this.ugg = 0;
         this.project = 0;
         this.subjectList = [];//the list of courses related to the subject you interested
-        this.diffList = new Map();//difficulty list (contain all course the user query)
+        this.resultList = new Map();//difficulty list (contain all course the user query)
     }
-/*
-    test(){
-        let c = new Course();
-        c.set("se", 1, 2, 2, 2);
-        this.subjectList.push(c);
-        let a = new Course();
-        a.set("devOps", 1, 3, 2, 1);
-        this.subjectList.push(a);
-    }
-*/
+
     setProfile(interest, ugg, project){
         this.interest = interest;
         this.ugg = (ugg*2/5).toFixed(2);
@@ -31,12 +22,13 @@ class Recommend{
         }
     }
 
-    makeRecommend(subject){
+    makeRecommend(subject, topic){
         this.makeSubjectList(subject);
-        this.add2diffList();
+        this.add2ResultList(topic);
+
         let count = 1;
         let print = [];
-        for (let [key, value] of this.diffList) {
+        for (let [key, value] of this.resultList) {
             if (count > 4)
                 break;
             print.push(count + ". " + key + ", difficulty: " + value);
@@ -64,19 +56,35 @@ class Recommend{
         return difficulty.toFixed(2);
     }
 
-    add2diffList(){
-        this.diffList = new Map();
+    add2ResultList(topic){
+        this.resultList = new Map();
 
         for (let course of this.subjectList){
-            this.diffList.set(course.name, this.getDifficulty(course));
+            switch (topic) {
+                case "comprehensive":
+                    this.resultList.set(course.name, this.getDifficulty(course));
+                    break;
+                case "by_average":
+
+                    break;
+                case "prior_asi":
+                    break;
+                case "prior_pro":
+                    break;
+                default:
+                    this.resultList.set(course.name, this.getDifficulty(course));
+                    break;
+            }
         }
 
-        //sort diffList
-        this.diffList[Symbol.iterator] = function* () {
+        //sort resultList
+        this.resultList[Symbol.iterator] = function* () {
             yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
         }
 
     }
+
+
 }
 
 const recommend = new Recommend();

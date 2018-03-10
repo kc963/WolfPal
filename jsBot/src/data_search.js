@@ -29,13 +29,26 @@ class DataSearch{
     }
 
     getCourseId(name){
+        name = name.toLowerCase();
         for (let c of this.course){
-            if (name.toLowerCase().localeCompare(c.course_name.toLowerCase()) == 0){
+            //if (name.localeCompare(c.course_name) == 0){
+            if (c.course_name.toLowerCase().includes(name)){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
+                return c.syllabus_id;
+            }
+            if (name === c.code.toLowerCase()){
                 return c.syllabus_id;
             }
         }
         return -1;
+    }
+
+    getCoursePrereq(id){
+        for (let c of this.course) {
+            if (id === c.syllabus_id)
+                return c.prerequisites;
+        }
+        return null;
     }
 
     getCourseAverage(id){
@@ -108,16 +121,21 @@ class DataSearch{
 
     makeCourseList_name(subject){
         let list = this.makeCourseList_number(subject);
-        let cNameList = [];
-        for(let l of list){
-            cNameList.push(this.getCourseName(l));
+        let nameString = "";
+        for(let l = 0; l <list.length; l++){
+            if (l === 0)
+                nameString += (l+1) + ". " + this.getCourseName(list[l]);
+            else {
+                console.log(l.type);
+                nameString += ", " + (l+1) + ". " + this.getCourseName(list[l]);
+            }
         }
-        console.log("get course list(name): " + cNameList);
-        return cNameList;
+        return nameString;
     }
 
 }
 
 const dataSearch = new DataSearch();
+//console.log("course name: " + dataSearch.getCourseName(1));
 //let a = dataSearch.getWorkload(14);
 //console.log(a.name + ", " + a.core + ", " + a.assingment + ", " + a.exam + ", " + a.project);
