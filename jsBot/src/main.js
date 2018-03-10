@@ -197,8 +197,6 @@ var Chat = function() {
         //var subject = "";
         if (input.includes("data science"))
             subject = "data science";
-            how2recommend();
-        }
         else if (input.includes("software engineering"))
             subject = "software engineering";
         else if (input.includes("algorithm"))
