@@ -23,7 +23,7 @@
             <p style="text-align:justify"><%= course.description %></p>
             <i>Prerequisites: <%= course.prerequisites %> <br></i>
             <i><br><table id="search-criteria">
-              <% items = Schedule.select('id,semester,day,time').group('semester').where(:course_id => course.syllabus_id) %>
+              <% items = Schedule.select('id,semester,day,time').group('id').where(:course_id => course.syllabus_id) %>
               <% items.each do |schedule| %>
                   <tr>
                     <td><%= schedule.semester %>: <%= schedule.day %>, <%= schedule.time %> &nbsp; &nbsp; &nbsp;</td>

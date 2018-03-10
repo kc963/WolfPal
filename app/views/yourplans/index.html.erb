@@ -10,9 +10,9 @@
     <br>
     <div class="panel-group" id="accordion">
       <% @yourplans.each do |yourplan| %>
-          <% items = Schedule.select('id,semester,day,time').group('semester').where(:id => yourplan.schedule_id) %>
+          <% items = Schedule.select('id,semester,day,time').group('id').where(:id => yourplan.schedule_id) %>
           <% items.each do |schedule| %>
-              <% courses = Course.select('id,code,course_name,syllabus_id,description,prerequisites,core').where(:id => yourplan.courses) %>
+              <% courses = Course.select('id,code,course_name,syllabus_id,description,prerequisites,core').group('id').where(:id => yourplan.courses) %>
               <% courses.each do |course| %>
                   <div class="panel panel-default">
                     <div class="panel-heading">
