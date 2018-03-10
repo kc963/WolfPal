@@ -60,10 +60,6 @@ var Chat = function() {
                 for( let x of list){
                     output(++index + ". " + dataSearch.getCourseName(x), true);
                 }
-                // while(list.hasNext()){
-                //     output(dataSearch.getCourseName(list.next()), true);
-                // }
-                //output( dataSearch.makeCourseList_name(subject) , true);
                 talk();
                 break;
             default:
