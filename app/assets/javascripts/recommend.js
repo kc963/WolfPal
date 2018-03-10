@@ -1,10 +1,14 @@
 class Recommend{
+
     constructor(){
+      console.log("Recommend Constructor Started.")
         this.interest = "";
         this.ugg = 0;
         this.project = 0;
         this.subjectList = [];//the list of courses related to the subject you interested
         this.diffList = new Map();//difficulty list (contain all course the user query)
+        this.dataSearch = new DataSearch();
+        //alert('rec: '+ this.dataSearch);
     }
 /*
     test(){
@@ -18,16 +22,16 @@ class Recommend{
 */
     setProfile(interest, ugg, project){
         this.interest = interest;
-        this.ugg = (ugg*2/5).toFixed(2);
-        this.project = (project*2/5).toFixed(2);
+        this.ugg = (ugg*2/4).toFixed(2);
+        this.project = (project*1/4).toFixed(2);
         console.log("ugg, project: " + this.ugg + ", " + this.project);
     }
 
     makeSubjectList(subject){
         this.subjectList = [];
-        let idList = dataSearch.makeCourseList_number(subject);
+        let idList = this.dataSearch.makeCourseList_number(subject);
         for (let il of idList) {
-            this.subjectList.push(dataSearch.getWorkload(il));
+            this.subjectList.push(this.dataSearch.getWorkload(il));
         }
     }
 
@@ -79,5 +83,4 @@ class Recommend{
     }
 }
 
-const recommend = new Recommend();
-
+// const recommend = new Recommend();

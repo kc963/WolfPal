@@ -1,25 +1,76 @@
 class DataSearch{
     constructor(){
+        console.log("DataSearch constructor started.")
+        this.transfercomplete = false;
+        this.workload = {};
+        var sync = true;
         let request = new XMLHttpRequest();
-        request.open("GET", "data/main_course.json", false);
-        request.send(null);
-        var yourDataStr = JSON.stringify(request.responseText)
-        this.course = JSON.parse(yourDataStr).main;
+        request.open("GET", "assets/main_course.json", !sync);
+        //request.responseType = 'json';
+        request.send();
+        request.onreadystatechange = (this.course = function() {
+            if (request.readyState == 4 && request.status == "200") {
+                var yourData = JSON.parse(request.response);
+                return yourData["main"];
+            }
+        });
+        this.course = JSON.parse(request.response).main;
+        //request.end();
+        // var yourDataStr = JSON.stringify(request.responseText)
+        // this.course = JSON.parse(yourDataStr).main;
 
-        request.open("GET", "data/average.json", false);
-        request.send(null);
-        var yourDataStr = JSON.stringify(request.responseText)
-        this.average = JSON.parse(yourDataStr).average;
 
-        request.open("GET", "data/workload.json", false);
-        request.send(null);
-        var yourDataStr = JSON.stringify(request.responseText)
-        this.workload = JSON.parse(yourDataStr).workload;
+        let request2 = new XMLHttpRequest();
+        request2.open("GET", "assets/average.json", !sync);
+        //request.responseType = 'json';
+        request2.send();
+        request2.onreadystatechange = (this.average = function() {
+            if (request2.readyState == 4 && request2.status == "200") {
+                var yourData = JSON.parse(request2.response);
+                return yourData["average"];
+            }
+        });
+        this.average = JSON.parse(request2.response).average;
+        // var yourDataStr = JSON.stringify(request.responseText)
+        // this.average = JSON.parse(yourDataStr).average;
 
-        request.open("GET", "data/category.json", false);
-        request.send(null);
-        var yourDataStr = JSON.stringify(request.responseText)
-        this.category = JSON.parse(yourDataStr);
+        let request3 = new XMLHttpRequest();
+        request3.addEventListener("load", function(){
+          console.log("Data Transfer Complete");
+          this.transfercomplete = true;
+        });
+        request3.open("GET", "assets/workload.json", !sync);
+        //request.responseType = 'json';
+        request3.send();
+        request3.onreadystatechange = (this.workload = function() {
+            if (request3.readyState == 4 && request3.status == "200") {
+                var yourData = JSON.parse(request3.response);
+                console.log(yourData.workload);
+                //alert("Your data: " + yourData);
+                //alert("Your data - String: " + JSON.stringify(yourdata));
+                return yourData.workload;
+            }
+        });
+        this.workload = JSON.parse(request3.response).workload;
+        console.log(JSON.parse(request3.response));
+        // var yourDataStr = JSON.stringify(request.responseText)
+        // this.workload = JSON.parse(yourDataStr).workload;
+
+        let request4 = new XMLHttpRequest();
+        request4.open("GET", "assets/category.json", !sync);
+        //request.responseType = 'json';
+        request4.send();
+        request4.onreadystatechange = (this.category = function() {
+            if (request4.readyState == 4 && request4.status == "200") {
+                var yourData = JSON.parse(request4.response);
+                return yourData;
+            }
+        });
+        this.category = JSON.parse(request4.response);
+        // var yourDataStr = JSON.stringify(request.responseText)
+        // this.category = JSON.parse(yourDataStr);
+
+        //alert(this.workload);
     }
 
     getCourseName(id){
@@ -64,6 +115,9 @@ class DataSearch{
     }
 
     getWorkload(id){
+      //console.log("id : " + id + " : workload : " + this.workload);
+      //alert("id: " + id);
+      //alert(this.workload);
         for (let w of this.workload){
             if (id === w.syllabus_id){
                 let c = new Workload();
@@ -122,6 +176,6 @@ class DataSearch{
 
 }
 
-const dataSearch = new DataSearch();
+//const dataSearch = new DataSearch();
 //let a = dataSearch.getWorkload(14);
 //console.log(a.name + ", " + a.core + ", " + a.assingment + ", " + a.exam + ", " + a.project);

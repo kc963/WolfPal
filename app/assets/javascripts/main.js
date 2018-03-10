@@ -5,11 +5,12 @@
 
 var Chat = function() {
     //var dataSearch = new DataSearch();
-    var messages = document.querySelector('.messages');
+    var messages = {};
     var topic = "";//input switch
     var subject = ""; //execute on "other" topic
-    var profile = "";
-    initData();
+    var profile = {};
+    var dataSearch = {};
+    var recommend = {};
 
     /* var request = new XMLHttpRequest();
      request.open("GET", "data/profile.json", false);
@@ -17,26 +18,31 @@ var Chat = function() {
      var yourDataStr = JSON.stringify(request.responseText)*/
 
 
-    function loadJSON(callback) {
+    function loadJSON() {
 
         var xobj = new XMLHttpRequest();
-        xobj.overrideMimeType("application/json");
-        xobj.open('GET', 'assets/profile.json', true); // Replace 'my_data' with the path to your file
-        xobj.onreadystatechange = function () {
+        //xobj.overrideMimeType("application/json");
+        xobj.open('GET', 'assets/profile.json'); // Replace 'my_data' with the path to your file
+        //alert(xobj.onreadystatechange);
+        xobj.responseType = 'json';
+        xobj.send();
+        xobj.onreadystatechange = (profile = function() {
             if (xobj.readyState == 4 && xobj.status == "200") {
                 // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-                callback(xobj.responseText);
+                profile = xobj.response;
+                //alert('hey: ' + profile.ugg.question);
+                return profile;
+                //callback(xobj.responseText);
             }
-        };
-        xobj.send(null);
-    }
-
-    function initData() {
-        loadJSON(function(response) {
-            // Parse JSON string into object
-            profile = JSON.parse(response);
-            alert("hey" + profile.ugg.question);
         });
+        //fetch('assets/profile.json').then(function(response){
+        //  alert(response);
+        //  profile = JSON.parse(response);
+        //  alert(profile.ugg.question);
+        //});
+
+        //var jsondata = JSON.parse(profile);
+        //alert('profile: ' + profile);
     }
 
     function outputButton(text, id, delay){
@@ -230,7 +236,22 @@ var Chat = function() {
 
     function init() {
         output('Hey pal, I can help you with course selection, if you tell me a bit about yourself.', true);
-        talk();
+        messages = document.querySelector('.messages');
+        //alert("messages: " + messages);
+        setTimeout(function(){
+          loadJSON();
+          setTimeout(function(){
+            recommend = new Recommend();
+            dataSearch = new DataSearch();
+          }, 250);
+          //alert('main:r: ' + recommend);
+          //alert("profile later: " + profile);
+          setTimeout(function(){
+            //alert('main:d: ' + dataSearch);
+            talk();
+          }, 2000);
+        }, 0);
+        //talk();
 
     }
 
@@ -242,6 +263,11 @@ var Chat = function() {
 
 }();
 
-(function(){
-    Chat.init();
-}());
+function myfun(){
+  setTimeout(function(){
+      Chat.init();
+      //alert('myfun done');
+  },500);
+}
+
+myfun();
