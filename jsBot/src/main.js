@@ -221,7 +221,7 @@ var Chat = function() {
     }
 
     function getAoI(){
-        output("Can you tell me your area of interest?", true, 500);
+        output("Enter your area of interest.", true, 500);
     }
 
     function sleep(ms){
