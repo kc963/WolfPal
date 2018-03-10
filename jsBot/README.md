@@ -26,9 +26,18 @@ The other is recommend courses by difficulty sort.
 <br>
 FIGURE
 <br>
-By click `Change interest subject` users can change their interest subject here.
 
+By click `Change interest subject` users can change their interest subject here. Acceptable subjects for our bots are,
+<br>
+- Data Science
+- Software Engineering
+- Algorithm
+- Application
+- System
+- Software Security
 
 ### 2.2.Course detail
+This functionality shows a small amount of data that users might want to quickly check out. It contains two kind of information, which are `Average grade` and `Prerequisites`.
 
 ### 2.3. About me
+Here are questions and answers about how to use this website and chatbot. Right now, it give the user the hyperlink of our github page. Explanation and demos can be find on readMe page.
