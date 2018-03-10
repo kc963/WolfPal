@@ -69,7 +69,7 @@ var Chat = function() {
         }
     }
     function how2recommend() {
-        output("Your interest subject is '" + subject + "', what do you want to know?", true, 500);
+        output("Your interest subject is " + subject.toUpperCase() + ", what do you want to know?", true, 500);
         outputButton("List of courses related to subject", "related", 500);
         outputButton("Recommend courses", "recommend", 500);
         outputButton("Change interest subject", "change_AOI", 500);
@@ -106,6 +106,7 @@ var Chat = function() {
         input = input.replace("<br>", "").toLowerCase();
         console.log(input);
         switch(topic){
+
             case "ugg":
                 if ( input>=0 && input<=5)
                     profile.ugg.answer = input;
@@ -123,15 +124,6 @@ var Chat = function() {
                 talk();
                 break;
             case "course_detail":
-                /*
-                input = input.charAt(0).toUpperCase() + input.slice(1);
-                var str = input;
-                while(str.indexOf(' ') >=0){
-                    var i = str.indexOf(' ');
-                    str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
-                    input = input.substring(0, i+1) + str;
-                }
-                */
                 detail(input);
                 talk();
                 break;
@@ -140,8 +132,12 @@ var Chat = function() {
                 setSubject(input);
                 how2recommend();
                 break;
+            case "firstAoi":
+                setSubject(input);
+                talk();
+                break;
         }
-        talk();
+
     }
 
     function talk() {
@@ -198,7 +194,6 @@ var Chat = function() {
     }
 
     function setSubject(input){
-        //var subject = "";
         if (input.includes("data science"))
             subject = "data science";
         else if (input.includes("software engineering"))
@@ -211,13 +206,13 @@ var Chat = function() {
             subject = "system";
         else if (input.includes("software security"))
             subject = "software security";
-        else
+        else {
             output("Sorry, can't find courses related to this subject.", true, 500);
-
+        }
     }
 
     function getCourse(){
-        output("Enter course name(Data Structures) or code(csc540).", true, 500);
+        output("Enter course name(Database) or code(csc540).", true, 500);
     }
 
     function getAoI(){
@@ -235,15 +230,15 @@ var Chat = function() {
             //output("The courses related to " + subject + " is: " , true);
             //output( dataSearch.makeCourseList_name(subject) , true);
             //setTimeout(function(){
-                output("Top 4 recommendations for you is: ", true, 500);
-                var print = recommend.makeRecommend(subject, topic);
-                for (var p of print) {
-                    output(p, true, 550);
-                }
+            output("Top 4 recommendations for you is: ", true, 500);
+            var print = recommend.makeRecommend(subject, topic);
+            for (var p of print) {
+                output(p, true, 550);
+            }
             //}, 500);
         }
         //else
-            //output("Sorry, can't find courses related to this subject.", true, 500);
+        //output("Sorry, can't find courses related to this subject.", true, 500);
     }
 
     function detail(input) {
@@ -257,16 +252,21 @@ var Chat = function() {
             output(string, true, 500);
 
             var coursePrereq = dataSearch.getCoursePrereq(courseId);
+            /*
             if (coursePrereq !== null) {
                 string = "The prerequisites are: " + coursePrereq;
                 output(string, true, 500);
             }
+            */
+            output("The prerequisites are: " + coursePrereq, true, 500);
         }
     }
 
+
     function aboutMe(){
         //output("<a href=\"url\">string</a>",true);
-        output("<a href=\"https://github.com/ragarwa7/WolfPal\">See details on project github page</a>",true);
+        output("See details on project <a href=\"https://github.com/ragarwa7/WolfPal\">github page</a>",true);
+        output("You can find use case on `readme` section, and create issue to report bugs or ask questions.", true);
         talk();
     }
 
@@ -286,5 +286,4 @@ var Chat = function() {
 (function(){
     Chat.init();
 }());
-
 
