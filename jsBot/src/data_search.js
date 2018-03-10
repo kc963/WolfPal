@@ -121,16 +121,16 @@ class DataSearch{
 
     makeCourseList_name(subject){
         let list = this.makeCourseList_number(subject);
-        let nameString = "";
-        for(let l = 0; l <list.length; l++){
-            if (l === 0)
-                nameString += (l+1) + ". " + this.getCourseName(list[l]);
-            else {
-                console.log(l.type);
-                nameString += ", " + (l+1) + ". " + this.getCourseName(list[l]);
-            }
-        }
-        return nameString;
+        // let nameString = "";
+        // for(let l = 0; l <list.length; l++){
+        //     if (l === 0)
+        //         nameString += (l+1) + ". " + this.getCourseName(list[l]);
+        //     else {
+        //         console.log(l.type);
+        //         nameString += "\n" + (l+1) + ". " + this.getCourseName(list[l]);
+        //     }
+        // }
+        return list;
     }
 
 }

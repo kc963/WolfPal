@@ -4,7 +4,7 @@
     "answer": ""
   },
   "ugg": {
-    "question": "What was your grade in undergrad? ",
+    "question": "What was your grade in undergrad? (0-4)",
     "answer": ""
   },
   "project": {

@@ -65,7 +65,7 @@ var Chat = function() {
         }
     }
     function how2recommend() {
-        output("Your interest subject is " + subject.toUpperCase() + ", what do you want to know?", true, 500);
+        output("Your interest subject is '" + subject + "', what do you want to know?", true, 500);
         outputButton("List of courses related to subject", "related", 500);
         outputButton("Recommend courses", "recommend", 500);
         outputButton("Change interest subject", "change_AOI", 500);
@@ -136,12 +136,8 @@ var Chat = function() {
                 setSubject(input);
                 how2recommend();
                 break;
-            case "firstAoi":
-                setSubject(input);
-                talk();
-                break;
         }
-
+        talk();
     }
 
     function talk() {
@@ -201,6 +197,8 @@ var Chat = function() {
         //var subject = "";
         if (input.includes("data science"))
             subject = "data science";
+            how2recommend();
+        }
         else if (input.includes("software engineering"))
             subject = "software engineering";
         else if (input.includes("algorithm"))
@@ -217,7 +215,7 @@ var Chat = function() {
     }
 
     function getCourse(){
-        output("Enter course name(Database) or code(csc540).", true, 500);
+        output("Enter course name(Data Structures) or code(csc540).", true, 500);
     }
 
     function getAoI(){
