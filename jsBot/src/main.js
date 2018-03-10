@@ -7,7 +7,7 @@ var Chat = function() {
     var dataSearch = new DataSearch();
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
-    var subject = "software engineering"; //execute on "other" topic
+    var subject = ""; //execute on "other" topic
     var buttonId = 0;
 
     var request = new XMLHttpRequest();
@@ -37,7 +37,8 @@ var Chat = function() {
         topic = id;
         switch(topic){
             case "suggest_course":
-                how2recommend();
+                getAoI();
+                //how2recommend();
                 break;
             case "change_AOI":
                 getAoI();
@@ -53,8 +54,16 @@ var Chat = function() {
                 talk();
                 break;
             case "related":
-                output("The courses related to " + subject + " is: " , true);
-                output( dataSearch.makeCourseList_name(subject) , true);
+                output("The courses related to " + subject + " are: " , true);
+                var list = dataSearch.makeCourseList_name(subject);
+                var index = 0;
+                for( let x of list){
+                    output(++index + ". " + dataSearch.getCourseName(x), true);
+                }
+                // while(list.hasNext()){
+                //     output(dataSearch.getCourseName(list.next()), true);
+                // }
+                //output( dataSearch.makeCourseList_name(subject) , true);
                 talk();
                 break;
             default:
@@ -64,8 +73,9 @@ var Chat = function() {
         }
     }
     function how2recommend() {
-        output("Your interest subject is '" + subject + "', what do you want to know?", true, 500);
-        outputButton("List of courses related to subject", "related", 500);
+        document.getElementsByName("input")[0].setAttribute("contenteditable", "false");
+        output("You chose \'" + subject + "\', what do you want to know?", true, 500);
+        outputButton("List of courses related to the subject", "related", 500);
         outputButton("Recommend courses", "recommend", 500);
         outputButton("Change interest subject", "change_AOI", 500);
         buttonId++;
@@ -106,6 +116,7 @@ var Chat = function() {
                     profile.ugg.answer = input;
                 else
                     output("Number must between 0 and 5.", true);
+                talk();
                 break;
             case "project":
                 if (input>=0 && input<=5) {
@@ -114,15 +125,16 @@ var Chat = function() {
                 }
                 else
                     output("Number must between 0 and 5.", true);
+                talk();
                 break;
             case "course_detail":
                 detail(input);
+                talk();
                 break;
             case "aoi":
                 setSubject(input);
                 break;
         }
-        talk();
     }
 
     function talk() {
@@ -178,7 +190,6 @@ var Chat = function() {
         //var subject = "";
         if (input.includes("data science")) {
             subject = "data science";
-            how2recommend();
         }
         else if (input.includes("software engineering"))
             subject = "software engineering";
@@ -192,11 +203,11 @@ var Chat = function() {
             subject = "software security";
         else
             output("Sorry, can't find courses related to this subject.", true, 500);
-
+        how2recommend();
     }
 
     function getCourse(){
-        output("Enter course name(Data Structures) or code(csc540).", true, 500);
+        output("Enter course name(ex. Data Structures) or code(ex. csc540).", true, 500);
     }
 
     function getAoI(){
