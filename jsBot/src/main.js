@@ -7,7 +7,7 @@ var Chat = function() {
     var dataSearch = new DataSearch();
     var messages = document.querySelector('.messages');
     var topic = "";//input switch
-    var subject = "software engineering"; //execute on "other" topic
+    var subject = ""; //execute on "other" topic
     var buttonId = 0;
 
     var request = new XMLHttpRequest();
@@ -40,6 +40,7 @@ var Chat = function() {
                 how2recommend();
                 break;
             case "change_AOI":
+                topic = "aoi";
                 getAoI();
                 break;
             case "course_detail":
@@ -64,7 +65,7 @@ var Chat = function() {
         }
     }
     function how2recommend() {
-        output("Your interest subject is '" + subject + "', what do you want to know?", true, 500);
+        output("Your interest subject is " + subject.toUpperCase() + ", what do you want to know?", true, 500);
         outputButton("List of courses related to subject", "related", 500);
         outputButton("Recommend courses", "recommend", 500);
         outputButton("Change interest subject", "change_AOI", 500);
@@ -106,6 +107,7 @@ var Chat = function() {
                     profile.ugg.answer = input;
                 else
                     output("Number must between 0 and 5.", true);
+                talk();
                 break;
             case "project":
                 if (input>=0 && input<=5) {
@@ -114,6 +116,7 @@ var Chat = function() {
                 }
                 else
                     output("Number must between 0 and 5.", true);
+                talk();
                 break;
             case "course_detail":
                 /*
@@ -126,16 +129,27 @@ var Chat = function() {
                 }
                 */
                 detail(input);
+                talk();
                 break;
             case "aoi":
+                topic = "aoi";
                 setSubject(input);
+                how2recommend();
+                break;
+            case "firstAoi":
+                setSubject(input);
+                talk();
                 break;
         }
-        talk();
+
     }
 
     function talk() {
-        if (profile.ugg.answer === ""){
+        if (subject === ""){
+            topic = "firstAoi";
+            getAoI();
+        }
+        else if (profile.ugg.answer === ""){
             topic = "ugg";
             requiredUgg();
         }
@@ -185,10 +199,8 @@ var Chat = function() {
 
     function setSubject(input){
         //var subject = "";
-        if (input.includes("data science")) {
+        if (input.includes("data science"))
             subject = "data science";
-            how2recommend();
-        }
         else if (input.includes("software engineering"))
             subject = "software engineering";
         else if (input.includes("algorithm"))
@@ -205,11 +217,10 @@ var Chat = function() {
     }
 
     function getCourse(){
-        output("Enter course name(Data Structures) or code(csc540).", true, 500);
+        output("Enter course name(Database) or code(csc540).", true, 500);
     }
 
     function getAoI(){
-        topic = "aoi";
         output("Can you tell me your area of interest?", true, 500);
     }
 
@@ -275,3 +286,5 @@ var Chat = function() {
 (function(){
     Chat.init();
 }());
+
+
