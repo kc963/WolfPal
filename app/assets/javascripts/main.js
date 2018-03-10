@@ -38,15 +38,16 @@ var Chat = function() {
         b.setAttribute("onClick", "Chat.pressedButton(this.id)");
         setTimeout(function(){
             messages.appendChild(b);
-            var objDiv = document.getElementById("chatText");
-            objDiv.scrollTop = objDiv.scrollHeight;
+            // var objDiv = document.getElementById("chatText");
+            // objDiv.scrollTop = objDiv.scrollHeight;
+            messages.scrollTop = messages.scrollHeight;
         },delay);
     }
 
     function pressedButton(id){
         //alert("Button pressed: " + document.getElementById(id).innerHTML);
         document.getElementsByName("input")[0].setAttribute("contenteditable", "true");
-        document.getElementsByName(id+(buttonId-1))[0].setAttribute("style", "background:  #FF5733  ;");
+        document.getElementsByName(id+(buttonId-1))[0].setAttribute("style", "background:  #888  ;");
         topic = id;
         switch(topic){
             case "suggest_course":
@@ -145,15 +146,6 @@ var Chat = function() {
                 setSubject(input);
                 break;
             case "course_detail":
-                //console.log(input);
-                // input = input.charAt(0).toUpperCase() + input.slice(1);
-                // //console.log(input);
-                // var str = input;
-                // while(str.indexOf(' ') >=0){
-                //     var i = str.indexOf(' ');
-                //     str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
-                //     input = input.substring(0, i+1) + str;
-                // }
                 console.log(input);
                 detail(input);
                 talk();
@@ -180,10 +172,6 @@ var Chat = function() {
     }
 
     function other() {
-        //output("Type \"suggest + subject\" for suggest courses based on the subject, " +
-        //    "or type \"course_name\" to get course detail.", true, 500);
-        //    sleep(1000);
-        //}
         document.getElementsByName("input")[0].setAttribute("contenteditable", "false");
         output("Pick one category below in which you need help", 500);
         outputButton("Suggest Course", "suggest_course",500);
