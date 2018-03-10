@@ -121,6 +121,7 @@ class DataSearch{
 
     makeCourseList_name(subject){
         let list = this.makeCourseList_number(subject);
+        /*
         let nameString = "";
         for(let l = 0; l <list.length; l++){
             if (l === 0)
@@ -130,7 +131,8 @@ class DataSearch{
                 nameString += ", " + (l+1) + ". " + this.getCourseName(list[l]);
             }
         }
-        return nameString;
+        */
+        return list;
     }
 
 }
