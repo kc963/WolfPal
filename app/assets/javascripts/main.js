@@ -67,11 +67,12 @@ var Chat = function() {
                 talk();
                 break;
             case "related":
-                output("The courses related to " + subject + " are: " , true);
+                output("The courses related to " + subject + " are: " , true, 350);
                 var list = dataSearch.makeCourseList_name(subject);
                 var index = 0;
                 for( let x of list){
                     output(++index + ". " + dataSearch.getCourseName(x), true);
+                    sleep(75);
                 }
                 talk();
                 break;
@@ -292,8 +293,13 @@ var Chat = function() {
           }, 250);
           setTimeout(function(){
             talk();
-          }, 2000);
+          }, 1000);
         }, 0);
+    }
+
+    function sleep(ms){
+        var start_time = new Date().getTime();
+        while((new Date().getTime() - start_time) < ms){}
     }
 
     return {

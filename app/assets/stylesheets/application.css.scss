@@ -34,7 +34,7 @@
 }
 .chat {
     width: 22%;
-    height: 100%;
+    height: 95vh;
     display: flex;
     flex-direction:column;
     overflow: hidden;
@@ -44,7 +44,7 @@
     position: fixed;
     right: 0;
     bottom: 0;
-    -webkit-transition: all  0.75s;
+    -webkit-transition: all 0.75s;
     transition: all 0.75s;
 }
 .messages {
@@ -52,9 +52,9 @@
     display: flex;
     flex-direction: column;
     /*justify-content: flex-end;*/
-    background: #fafafa ;
+    background: #f0f0f0 ;
     overflow: auto;
-    height: 400px;
+    height: 90vh;
 }
 .message {/*user*/
     margin: 2px 16px;
@@ -104,6 +104,7 @@
     border: 1px solid black;
     display: inline-block;
     color: white;
+    line-height: 4vh;
 }
 .chathead:hover  {
     cursor: pointer;
@@ -121,20 +122,15 @@
     float: left;
     display: inline-block;
     z-index: 1.1;
-    /*  position: absolute;
-      display: inline-block;
-      z-index: 1;
-      border: 1px solid blue;
-      margin-left: auto;
-    */}
+  }
 .botbutton {
     z-index: 0.9;
-    padding: 10px 25px 10px 25px;
+    padding: 25px 35px 25px 35px;
     border: 5px solid white;
-    width: 32%;
-    height: 18%;
+    /*width: 80% important;
+    height: 18% important;*/
     background-color: #333;/*#cc0001  ;*/
-    border-radius: 10px;
+    border-radius: 5px;
     position: fixed;
     display: flex;
     bottom: 0;
@@ -144,6 +140,7 @@
     overflow: hidden;
     color: white;
     font-size: 100%;
+    line-height: 5vh;
     justify-content: center;
     align-items: center;
 }
@@ -154,5 +151,5 @@
     background: #fff;
     padding: 10px;
     outline: none;
-    height: 15px;
+    height: 5vh;
 }
