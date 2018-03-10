@@ -84,13 +84,33 @@ class DataSearch{
     }
 
     getCourseId(name){
+        //name = name.toLowerCase();
+        var mycode = name.toUpperCase();
+        console.log("mycode: " + mycode);
+        while(mycode.includes(" ") || mycode.includes("-")){
+            mycode = mycode.replace(" ", "");
+            console.log("mycode: " + mycode);
+            mycode = mycode.replace("-","");
+            console.log("mycode: " + mycode);
+        }
         for (let c of this.course){
-            if (name.localeCompare(c.course_name) == 0){
+            if (name.localeCompare(c.course_name.toLowerCase()) == 0){
                 //alert(name + "," + c.course_name + "," + c.syllabus_id);
+                return c.syllabus_id;
+            }
+            if(mycode === c.code){
                 return c.syllabus_id;
             }
         }
         return -1;
+    }
+
+    getCoursePrereq(id){
+        for (let c of this.course) {
+            if (id === c.syllabus_id)
+                return c.prerequisites;
+        }
+        return null;
     }
 
     getCourseAverage(id){
@@ -115,9 +135,6 @@ class DataSearch{
     }
 
     getWorkload(id){
-      //console.log("id : " + id + " : workload : " + this.workload);
-      //alert("id: " + id);
-      //alert(this.workload);
         for (let w of this.workload){
             if (id === w.syllabus_id){
                 let c = new Workload();
@@ -125,7 +142,7 @@ class DataSearch{
                 return c;
             }
         }
-        console.log("can't getWorkload of this id: " + id);
+        //console.log("can't getWorkload of this id: " + id);
         let c = new Workload();
         c.name = this.getCourseName(id);
         return c;
@@ -166,12 +183,12 @@ class DataSearch{
 
     makeCourseList_name(subject){
         let list = this.makeCourseList_number(subject);
-        let cNameList = [];
-        for(let l of list){
-            cNameList.push(this.getCourseName(l));
-        }
-        console.log("get course list(name): " + cNameList);
-        return cNameList;
+        // let cNameList = [];
+        // for(let l of list){
+        //     cNameList.push(this.getCourseName(l));
+        // }
+        // console.log("get course list(name): " + cNameList);
+        return list;
     }
 
 }

@@ -11,38 +11,21 @@ var Chat = function() {
     var profile = {};
     var dataSearch = {};
     var recommend = {};
-
-    /* var request = new XMLHttpRequest();
-     request.open("GET", "data/profile.json", false);
-     request.send(null);
-     var yourDataStr = JSON.stringify(request.responseText)*/
-
+    var buttonId = 0;
 
     function loadJSON() {
 
         var xobj = new XMLHttpRequest();
         //xobj.overrideMimeType("application/json");
         xobj.open('GET', 'assets/profile.json'); // Replace 'my_data' with the path to your file
-        //alert(xobj.onreadystatechange);
         xobj.responseType = 'json';
         xobj.send();
         xobj.onreadystatechange = (profile = function() {
             if (xobj.readyState == 4 && xobj.status == "200") {
-                // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
                 profile = xobj.response;
-                //alert('hey: ' + profile.ugg.question);
                 return profile;
-                //callback(xobj.responseText);
             }
         });
-        //fetch('assets/profile.json').then(function(response){
-        //  alert(response);
-        //  profile = JSON.parse(response);
-        //  alert(profile.ugg.question);
-        //});
-
-        //var jsondata = JSON.parse(profile);
-        //alert('profile: ' + profile);
     }
 
     function outputButton(text, id, delay){
@@ -51,6 +34,7 @@ var Chat = function() {
         b.appendChild(document.createTextNode(text));
         b.className = 'button';
         b.setAttribute("id", id);
+        b.setAttribute("name", id+buttonId);
         b.setAttribute("onClick", "Chat.pressedButton(this.id)");
         setTimeout(function(){
             messages.appendChild(b);
@@ -62,6 +46,7 @@ var Chat = function() {
     function pressedButton(id){
         //alert("Button pressed: " + document.getElementById(id).innerHTML);
         document.getElementsByName("input")[0].setAttribute("contenteditable", "true");
+        document.getElementsByName(id+(buttonId-1))[0].setAttribute("style", "background:  #FF5733  ;");
         topic = id;
         switch(topic){
             case "suggest_course":
@@ -70,6 +55,28 @@ var Chat = function() {
             case "course_detail":
                 getCourse();
                 break;
+            case "change_AOI":
+                getAoI();
+                break;
+            case "about_me":
+                aboutMe();
+                break;
+            case "recommend":
+                suggestion();
+                talk();
+                break;
+            case "related":
+                output("The courses related to " + subject + " are: " , true);
+                var list = dataSearch.makeCourseList_name(subject);
+                var index = 0;
+                for( let x of list){
+                    output(++index + ". " + dataSearch.getCourseName(x), true);
+                }
+                talk();
+                break;
+            default:
+                output(id, true, 500);
+                talk();
         }
     }
 
@@ -88,6 +95,15 @@ var Chat = function() {
         }, delay);
     }
 
+    function how2recommend() {
+        document.getElementsByName("input")[0].setAttribute("contenteditable", "false");
+        output("Your chosen subject is \'" + subject + "\', what do you want to know?", true, 500);
+        outputButton("List of courses related to the subject", "related", 500);
+        outputButton("Recommend courses", "recommend", 500);
+        outputButton("Change interest subject", "change_AOI", 500);
+        buttonId++;
+    }
+
     function input(evt) {
         switch (evt.which) {
             case 13:
@@ -100,14 +116,18 @@ var Chat = function() {
     }
 
     function handleInput(input) {
+        while(input.includes('&nbsp')){
+            input = input.replace('&nbsp;', '');
+        }
         input = input.toLowerCase();
         console.log(input);
         switch(topic){
             case "ugg":
-                if ( input>=0 && input<=5)
+                if ( input>=0 && input<=4)
                     profile.ugg.answer = input;
                 else
-                    output("Number must between 0 and 5.", true);
+                    output("Number must between 0 and 4.", true);
+                talk();
                 break;
             case "project":
                 if (input>=0 && input<=5) {
@@ -116,25 +136,30 @@ var Chat = function() {
                 }
                 else
                     output("Number must between 0 and 5.", true);
+                talk();
                 break;
-            case "suggest_course":
-                suggestion(input);
+            // case "suggest_course":
+            //     suggestion(input);
+            //     break;
+            case "aoi":
+                setSubject(input);
                 break;
             case "course_detail":
-                console.log(input);
-                input = input.charAt(0).toUpperCase() + input.slice(1);
-                console.log(input);
-                var str = input;
-                while(str.indexOf(' ') >=0){
-                    var i = str.indexOf(' ');
-                    str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
-                    input = input.substring(0, i+1) + str;
-                }
+                //console.log(input);
+                // input = input.charAt(0).toUpperCase() + input.slice(1);
+                // //console.log(input);
+                // var str = input;
+                // while(str.indexOf(' ') >=0){
+                //     var i = str.indexOf(' ');
+                //     str = str.charAt(i+1).toUpperCase() + str.slice(i+2);
+                //     input = input.substring(0, i+1) + str;
+                // }
                 console.log(input);
                 detail(input);
+                talk();
                 break;
         }
-        talk();
+
     }
 
     function talk() {
@@ -163,6 +188,8 @@ var Chat = function() {
         output("Pick one category below in which you need help", 500);
         outputButton("Suggest Course", "suggest_course",500);
         outputButton("Course Detail", "course_detail",500);
+        outputButton("About me", "about_me", 500);
+        buttonId++;
     }
 
     function requiredInt() {
@@ -196,8 +223,37 @@ var Chat = function() {
             subject = "software security";
     }
 
+    function setSubject(input){
+        //var subject = "";
+        if (input.includes("data science")) {
+            subject = "data science";
+        }
+        else if (input.includes("software engineering"))
+            subject = "software engineering";
+        else if (input.includes("algorithm"))
+            subject = "algorithm";
+        else if (input.includes("application"))
+            subject = "application";
+        else if (input.includes("system"))
+            subject = "system";
+        else if (input.includes("software security"))
+            subject = "software security";
+        else
+            output("Sorry, can't find courses related to this subject.", true, 500);
+        how2recommend();
+    }
+
+    function getCourse(){
+        output("Enter course name(ex. Data Structures) or code(ex. csc540).", true, 500);
+    }
+
+    function getAoI(){
+        topic = "aoi";
+        output("Can you tell me your area of interest?", true, 500);
+    }
+
     function suggestion(input) {
-        getSubject(input);
+        //getSubject(input);
 
         if (subject !== "") {
             //output("The courses related to " + subject + " is: " , true);
@@ -215,44 +271,41 @@ var Chat = function() {
     }
 
     function detail(input) {
-        var courseId = dataSearch.getCourseId(input);
-        var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
-        var string = "Average grade of " + input + " as per last years data is " + courseAverage;
-        output( string , true, 500);
+        var courseId = dataSearch.getCourseId(input.trim());
+        if (courseId <0)
+            output("Sorry, can't find this course, please try another course name", true, 500 );
+        else {
+            var courseAverage = (courseId === -1) ? -1 : dataSearch.getCourseAverage(courseId);
+            output(" ''" + dataSearch.getCourseName(courseId)+ "'' ", true, 500);
+            var string = "Average grade on last year is: " + courseAverage;
+            output(string, true, 500);
+
+            var coursePrereq = dataSearch.getCoursePrereq(courseId);
+            if (coursePrereq !== null) {
+                string = "The prerequisites are: " + coursePrereq;
+                output(string, true, 500);
+            }
+        }
     }
 
-    function getCourse(){
-        output("Can you tell me the course name?", true, 500);
-    }
-
-    function getAoI(){
-        output("Can you tell me your area of interest?", true, 500);
-    }
-
-    function sleep(ms){
-        var start_time = new Date().getTime();
-        while((new Date().getTime() - start_time) < ms);
+    function aboutMe(){
+        output("<a href=\"https://github.com/ragarwa7/WolfPal\">See details on project github page</a>",true);
+        talk();
     }
 
     function init() {
         output('Hey pal, I can help you with course selection, if you tell me a bit about yourself.', true);
         messages = document.querySelector('.messages');
-        //alert("messages: " + messages);
         setTimeout(function(){
           loadJSON();
           setTimeout(function(){
             recommend = new Recommend();
             dataSearch = new DataSearch();
           }, 250);
-          //alert('main:r: ' + recommend);
-          //alert("profile later: " + profile);
           setTimeout(function(){
-            //alert('main:d: ' + dataSearch);
             talk();
           }, 2000);
         }, 0);
-        //talk();
-
     }
 
     return {
@@ -266,7 +319,6 @@ var Chat = function() {
 function myfun(){
   setTimeout(function(){
       Chat.init();
-      //alert('myfun done');
   },500);
 }
 

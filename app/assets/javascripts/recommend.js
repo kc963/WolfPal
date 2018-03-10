@@ -81,6 +81,34 @@ class Recommend{
         }
 
     }
+
+    add2ResultList(topic){
+        this.resultList = new Map();
+
+        for (let course of this.subjectList){
+            switch (topic) {
+                case "comprehensive":
+                    this.resultList.set(course.name, this.getDifficulty(course));
+                    break;
+                case "by_average":
+
+                    break;
+                case "prior_asi":
+                    break;
+                case "prior_pro":
+                    break;
+                default:
+                    this.resultList.set(course.name, this.getDifficulty(course));
+                    break;
+            }
+        }
+
+        //sort resultList
+        this.resultList[Symbol.iterator] = function* () {
+            yield* [...this.entries()].sort((a, b) => a[1] - b[1]);
+        }
+
+    }
 }
 
 // const recommend = new Recommend();
