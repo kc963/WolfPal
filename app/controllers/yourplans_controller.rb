@@ -5,13 +5,6 @@ class YourplansController < ApplicationController
   # GET /yourplans.json
   def index
     @yourplans = Yourplan.where(student_id: current_student.id)
-    #@courses = Course.joins(:yourplans).where(:id => Yourplan.courses)
-=begin
-    @courses =  Array.new
-    @yourplans.each do |o|
-      @courses << Course.where(:id => o.courses).all
-    end
-=end
   end
 
   # GET /yourplans/1
