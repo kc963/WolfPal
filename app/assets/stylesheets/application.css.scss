@@ -13,5 +13,45 @@
 #leftFrame{
   width: 75%;
   overflow: auto;
-  float: left
+  float: left;
+  padding-left: 1%;
+}
+
+#search-criteria{
+  border-collapse:separate;
+  border-spacing:0 7px;
+  cellspacing: 10px;
+}
+
+#rightFrame{
+  width: 25%;
+  overflow: auto;
+  padding-left: 1%
+}
+
+#rightFrame td{
+  padding:0 5px 0 5px;
+}
+
+#add_course{
+  font-size: 20px;
+  color: darkslategrey;
+}
+
+
+.panel-heading .accordion-toggle:after {
+  /* symbol for "opening" panels */
+  font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+  content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+  float: right;        /* adjust as needed */
+  color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+  /* symbol for "collapsed" panels */
+  content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+
+.list-group {
+  padding-left: 76% !important;
 }

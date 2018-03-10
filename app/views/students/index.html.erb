@@ -12,13 +12,11 @@
 
 <% content_for :left_content do %>
     <div class="jumbotron">
-      <% if student_signed_in? %>
-          <%= render 'layouts/chatlio' %>
-          <%= yield :js %>
-          <h2>List of courses and relevant filters</h2>
-      <% else %>
-
-      <% end %>
+      <div class="container">
+        <%= render 'layouts/chatlio' %>
+        <h2>List of courses and relevant filters</h2>
+        <%= render 'layouts/courseList' %>
+      </div>
     </div>
 <% end %>
 

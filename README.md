@@ -21,8 +21,6 @@ We propose a system to propose a prospective graduate plan for a new student for
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Trying to check account
-
 Things you may want to cover:
 
 * Ruby version
