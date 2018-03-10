@@ -30,7 +30,7 @@
                         <i>Prerequisites: <%= course.prerequisites %> <br></i>
                         <i><br>
                           <%= schedule.semester %>: <%= schedule.day %>, <%= schedule.time %>
-                          <%= button_to 'Remove from MyPlan', yourplan, method: :delete, data: { confirm: 'Are you sure?' } %>
+                          <%= button_to 'Remove', yourplan, method: :delete, data: { confirm: 'Are you sure?' } %>
 
                         </i><br>
                         <%= link_to('Course syllabus', "syllabus/#{course.code}.pdf", download: "#{course.course_name}") %>
