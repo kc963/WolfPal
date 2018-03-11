@@ -15,17 +15,32 @@ var Chat = function() {
 
     function loadJSON() {
 
-        var xobj = new XMLHttpRequest();
-        //xobj.overrideMimeType("application/json");
-        xobj.open('GET', 'assets/profile.json'); // Replace 'my_data' with the path to your file
-        xobj.responseType = 'json';
-        xobj.send();
-        xobj.onreadystatechange = (profile = function() {
-            if (xobj.readyState == 4 && xobj.status == "200") {
-                profile = xobj.response;
-                return profile;
-            }
-        });
+        profile ={
+          "interest": {
+            "question": "What is your area of interest?",
+            "answer": ""
+          },
+          "ugg": {
+            "question": "What was your grade in undergrad? (0-4)",
+            "answer": ""
+          },
+          "project": {
+            "question": "How you grade yourself in completing projects successfully? (0-5)",
+            "answer": ""
+          }
+        }
+        //profile = JSON.parse(profiledata);
+        // var xobj = new XMLHttpRequest();
+        // //xobj.overrideMimeType("application/json");
+        // xobj.open('GET', 'assets/profile.json'); // Replace 'my_data' with the path to your file
+        // xobj.responseType = 'json';
+        // xobj.send();
+        // xobj.onreadystatechange = (profile = function() {
+        //     if (xobj.readyState == 4 && xobj.status == "200") {
+        //         profile = xobj.response;
+        //         return profile;
+        //     }
+        // });
     }
 
     function outputButton(text, id, delay){
