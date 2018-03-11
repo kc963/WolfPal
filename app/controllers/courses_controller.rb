@@ -4,7 +4,19 @@ class CoursesController < ApplicationController
   # GET /courses
   # GET /courses.json
   def index
-    @courses = Course.all
+    if params[:q].present?
+      clear_boolean(params[:q], :core_true)
+      clear_boolean(params[:q], :schedules_project_true)
+      clear_boolean(params[:q], :schedules_fieldwork_true)
+      clear_select(params[:q], :schedules_semester_eq)
+    end
+    @q = Course.includes(:schedules).ransack(params[:q])
+    print(@q)
+    @courses = @q.result(distinct: true)
+                   .includes(:schedules)
+                   .joins(:schedules)
+                   .order('courses.code')
+                   .page(params[:page])
   end
 
   # GET /courses/1
@@ -71,4 +83,12 @@ class CoursesController < ApplicationController
     def course_params
       params.require(:course).permit(:code, :syllabus_id, :prerequisites, :course_name, :core, :channel_id)
     end
+
+    def clear_boolean(q, condition)
+      q.delete(condition) if q[condition] == "0"
+    end
+
+  def clear_select(q, condition)
+    q.delete(condition) if q[condition] == "Any"
+  end
 end
