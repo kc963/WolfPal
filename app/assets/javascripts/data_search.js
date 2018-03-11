@@ -11,8 +11,7 @@ class DataSearch{
           "SF": [6,7,8,9,10,11,12,13,14]
         };
 
-        this.workload = {
-          "workload":[
+        this.workload = [
             {
               "id": 1,
               "syllabus_id": 1,
@@ -63,11 +62,9 @@ class DataSearch{
               "created_at": "2018-03-03 19:08:09.380505",
               "updated_at": "2018-03-03 19:08:09.380505"
             }
-          ]
-        };
+          ];
 
-        this.average = {
-          "average": [
+        this.average = [
             {
               "id": 150,
               "A": 20,
@@ -453,11 +450,9 @@ class DataSearch{
               "updated_at": "2018-03-03 19:08:09.030170",
               "syllabus_id": 35
             }
-          ]
-        };
+          ];
 
-        this.course = {
-          "main": [
+        this.course = [
             {
               "id": 36,
               "code": "CSC510",
@@ -843,8 +838,7 @@ class DataSearch{
               "created_at": "2018-02-21 19:35:15.166833",
               "updated_at": "2018-02-21 19:35:15.166833"
             }
-          ]
-        };
+          ];
         // this.transfercomplete = false;
         // this.workload = {};
         // var sync = true;
