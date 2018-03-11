@@ -26,7 +26,10 @@ class YourplansController < ApplicationController
   def create
     @yourplan = Yourplan.new(yourplan_params)
     respond_to do |format|
-      if @yourplan.save
+      if Yourplan.exists?(student_id: current_student.id, courses: @yourplan.courses)
+        format.html { redirect_to root_path, notice: 'Course already exists in your plan.'  }
+        format.json { render json: @yourplan.errors, status: :unprocessable_entity }
+      elsif @yourplan.save
         format.html { redirect_to root_path, notice: 'Course was successfully added to your plan.' }
         format.json { render :show, status: :created, location: @yourplan }
       else
