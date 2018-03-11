@@ -19,7 +19,7 @@ gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+#gem 'therubyracer', platforms: :ruby
 
 
 
@@ -62,7 +62,7 @@ end
 
 group :production do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  #gem 'pg'
+  gem 'pg'
   gem 'rails_12factor'
 end
 
