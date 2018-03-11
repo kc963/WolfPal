@@ -982,6 +982,7 @@ class DataSearch{
         }
         //console.log("can't getWorkload of this id: " + id);
         let c = new Workload();
+        //c.set(this.getCourseName(id), 0,0,0,0);
         c.name = this.getCourseName(id);
         return c;
     }

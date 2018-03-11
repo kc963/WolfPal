@@ -46,8 +46,9 @@ var Chat = function() {
     function outputButton(text, id, delay){
         var delay = delay || 0;
         var b = document.createElement('BUTTON');
-        b.appendChild(document.createTextNode(text));
+        //b.appendChild(document.createTextNode(text));
         b.className = 'button';
+        b.innerHTML = text;
         b.setAttribute("id", id);
         b.setAttribute("name", id+buttonId);
         b.setAttribute("onClick", "Chat.pressedButton(this.id)");
@@ -82,7 +83,7 @@ var Chat = function() {
                 talk();
                 break;
             case "related":
-                output("The courses related to " + subject + " are: " , true, 350);
+                output("The courses related to " + subject + " are: " , true);
                 var list = dataSearch.makeCourseList_name(subject);
                 var index = 0;
                 for( let x of list){

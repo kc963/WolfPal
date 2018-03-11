@@ -22,7 +22,7 @@ class Recommend{
 */
     setProfile(interest, ugg, project){
         this.interest = interest;
-        this.ugg = (ugg*2/4).toFixed(2);
+        this.ugg = (ugg*1/4).toFixed(2);
         this.project = (project*1/4).toFixed(2);
         console.log("ugg, project: " + this.ugg + ", " + this.project);
     }
